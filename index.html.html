@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ما معنى أن تكون خفاشًا؟ - تجربة فلسفية</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+            cursor: none;
+            transition: background-color 1s;
+        }
+        
+        #batBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        @keyframes sonar {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        section {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            transform: translateX(50px);
+        }
+        
+        section.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        h1, h2, p {
+            margin: 15px 0;
+            max-width: 800px;
+            line-height: 1.6;
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            animation: pulse 3s infinite;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: #aaa;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s, filter 0.5s;
+            filter: blur(2px);
+        }
+        
+        p.visible {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+        }
+        
+        .sonar-wave {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: sonar 2s linear forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #555;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: none;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+            border-radius: 20px;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .final-point {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .bat-icon {
+            position: absolute;
+            font-size: 24px;
+            animation: float 3s ease-in-out infinite;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .zoom-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="batBackground"></canvas>
+    <button class="zoom-btn" title="تكبير النص">+</button>
+    
+    <div class="container">
+        <section id="intro" class="active">
+            <h1>ما معنى أن تكون شيئًا غيرك؟</h1>
+            <h2 class="fade-in">تخيل أنك خفاش... لكنك ما زلت تحتفظ بوعيك البشري.</h2>
+        </section>
+        
+        <section id="story">
+            <h1>داخل عقل خفاش</h1>
+            <p>كانت التجربة غريبة من اللحظة الأولى. لم يكن هناك ضوء... فقط اهتزازات.</p>
+            <p>لا يمكنك الرؤية، لكنك تشعر. العالم لا يُرى، بل يُرتد. كل سطح هو صدى، وكل حركة هي انعكاس.</p>
+            <p>لا ألوان. لا وجوه. لا كلمات.</p>
+            <p>فقط موجات.</p>
+            <p>أصبحتُ خفاشًا، أو على الأقل أحاول أن أكون.</p>
+            <p>لكن وعيي... لا يزال إنسانيًا.</p>
+            <p>وكل لحظة تمر، أعرف أنني لا أفهم شيئًا.</p>
+        </section>
+        
+        <section id="essay">
+            <h1>مقالة توماس ناغل: "ما معنى أن تكون خفاشًا؟"</h1>
+            <p>"يستحيل على الإنسان أن يعرف كيف يكون شعور الخفاش."</p>
+            <p>لا تكفي المعلومات. لا تكفي الفرضيات. التجربة الداخلية محجوبة.</p>
+            <p>نحن نعرف كيف "نرى"، كيف "نفكر"، لكننا لا نعرف كيف "يشعر" كائن مختلف تمامًا عنا.</p>
+            <p>حتى لو درسنا دماغه، نظامه العصبي، صوته، حركته…</p>
+            <p>فلن نعرف أبدًا كيف يكون أن نكونه.</p>
+        </section>
+        
+        <section id="questions">
+            <h1>أسئلة فلسفية</h1>
+            <div class="question-container">
+                <p class="question">هل تعتقد أن فهم الشيء من الخارج كافٍ؟</p>
+                <div class="options">
+                    <button class="btn" data-response="think">أفكر</button>
+                    <button class="btn" data-response="reject">أرفض</button>
+                    <button class="btn" data-response="agree">أوافق</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="answers">
+            <h1>أجوبة من الظلام</h1>
+            <p>"المعرفة لا تصنع الإحساس."</p>
+            <p>"التجربة هي الحقيقة التي لا تُشرح."</p>
+            <p>"الوعي ليس شيئًا نعرفه، بل شيئًا نكونه."</p>
+            <p>"أن تكون كائنًا... هي تجربة مغلقة لا تُمنح."</p>
+        </section>
+        
+        <section id="ending">
+            <h1>الخفاش لا يرى. لكنه يعيش. هل تفعل أنت؟</h1>
+            <div class="options">
+                <button class="btn final-btn" data-scene="machine">🔁 أعد التجربة — لكن كآلة</button>
+                <button class="btn final-btn" data-scene="owl">🦉 جرب أن تكون طائرًا</button>
+                <button class="btn final-btn" data-scene="consciousness">🧠 اقرأ الوعي كما لم يُكتب من قبل</button>
+            </div>
+            <div class="final-point"></div>
+        </section>
+    </div>
+
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function createPulseSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 200;
+            gainNode.gain.value = 0.5;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+        
+        function createEchoSound() {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            const delay = audioContext.createDelay();
+            const feedback = audioContext.createGain();
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 100;
+            gainNode.gain.value = 0.3;
+            delay.delayTime.value = 0.3;
+            feedback.gain.value = 0.5;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(delay);
+            delay.connect(feedback);
+            feedback.connect(delay);
+            feedback.connect(audioContext.destination);
+            
+            oscillator.start();
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
+            oscillator.stop(audioContext.currentTime + 1.5);
+        }
+        
+        const state = {
+            currentSection: 'intro',
+            responses: [],
+            backgroundIntensity: 0,
+            startTime: Date.now(),
+            fontSize: 1
+        };
+        
+        const questions = [
+            "هل تعتقد أن فهم الشيء من الخارج كافٍ؟",
+            "هل يمكنك أن تعيش شعور غيرك؟",
+            "هل المعرفة تغني عن التجربة؟",
+            "هل يمكن للآلة أن تشعر؟",
+            "هل الإدراك تجربة خاصة لا يمكن نقلها؟",
+            "هل يمكن للعلم تفسير الشعور؟",
+            "هل التجربة الإنسانية هي سجن؟"
+        ];
+        
+        function initBackground() {
+            const canvas = document.getElementById('batBackground');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const bats = Array(20).fill().map(() => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speed: Math.random() * 2 + 0.5
+            }));
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                
+                bats.forEach(bat => {
+                    bat.x += bat.speed;
+                    if (bat.x > canvas.width) bat.x = 0;
+                    ctx.beginPath();
+                    ctx.arc(bat.x, bat.y + Math.sin(bat.x * 0.01) * 10, bat.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+        
+        function createRandomBat() {
+            const bat = document.createElement('div');
+            bat.className = 'bat-icon';
+            bat.innerHTML = '🦇';
+            bat.style.left = `${Math.random() * 100}%`;
+            bat.style.top = `${Math.random() * 100}%`;
+            bat.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(bat);
+            
+            setTimeout(() => {
+                bat.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                bat.style.opacity = '0';
+                setTimeout(() => bat.remove(), 500);
+            }, 3000);
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initBackground();
+            
+            setTimeout(() => {
+                document.querySelector('#intro h2').style.opacity = 1;
+                createPulseSound();
+            }, 2000);
+            
+            setTimeout(() => {
+                navigateTo('story');
+            }, 8000);
+            
+            document.addEventListener('mousemove', createSonarWave);
+            document.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                createSonarWave(e.touches[0]);
+            });
+            
+            setupButtons();
+            
+            document.querySelector('.zoom-btn').addEventListener('click', () => {
+                state.fontSize += 0.1;
+                if (state.fontSize > 1.5) state.fontSize = 1;
+                document.body.style.fontSize = `${state.fontSize}rem`;
+            });
+            
+            setInterval(createRandomBat, 5000);
+        });
+        
+        function navigateTo(sectionId) {
+            const currentSection = document.querySelector(`#${state.currentSection}`);
+            if (currentSection) {
+                currentSection.classList.remove('active');
+            }
+            
+            state.currentSection = sectionId;
+            const newSection = document.querySelector(`#${sectionId}`);
+            newSection.classList.add('active');
+            
+            switch(sectionId) {
+                case 'story':
+                    animateStoryText();
+                    break;
+                case 'essay':
+                    animateEssayText();
+                    break;
+                case 'questions':
+                    startQuestions();
+                    break;
+                case 'answers':
+                    animateAnswers();
+                    break;
+                case 'ending':
+                    prepareEnding();
+                    break;
+            }
+        }
+        
+        function animateStoryText() {
+            const paragraphs = document.querySelectorAll('#story p');
+            paragraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.classList.add('visible');
+                    if (index % 2 === 0) createPulseSound();
+                }, index * 1500);
+            });
+            
+            setTimeout(() => navigateTo('essay'), paragraphs.length * 1500 + 3000);
+        }
+        
+        function animateEssayText() {
+            const paragraphs = document.querySelectorAll('#essay p');
+            paragraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.classList.add('visible');
+                    if (index === 2 || index === 4) createEchoSound();
+                }, index * 2000);
+            });
+            
+            setTimeout(() => navigateTo('questions'), paragraphs.length * 2000 + 3000);
+        }
+        
+        function startQuestions() {
+            let currentQuestion = 0;
+            const questionEl = document.querySelector('#questions .question');
+            const buttons = document.querySelectorAll('#questions .btn');
+            
+            showQuestion(currentQuestion);
+            
+            function showQuestion(index) {
+                if (index >= questions.length) {
+                    setTimeout(() => navigateTo('answers'), 2000);
+                    return;
+                }
+                
+                buttons.forEach(btn => btn.classList.remove('visible'));
+                
+                questionEl.textContent = questions[index];
+                questionEl.classList.remove('visible');
+                setTimeout(() => questionEl.classList.add('visible'), 500);
+                
+                setTimeout(() => {
+                    buttons.forEach(btn => btn.classList.add('visible'));
+                }, 1000);
+                
+                buttons.forEach(btn => {
+                    btn.onclick = () => {
+                        const response = btn.dataset.response;
+                        state.responses.push({
+                            question: questions[index],
+                            answer: response,
+                            time: Date.now()
+                        });
+                        updateBackground(response);
+                        
+                        currentQuestion++;
+                        setTimeout(() => showQuestion(currentQuestion), 1000);
+                    };
+                });
+            }
+        }
+        
+        function updateBackground(response) {
+            switch(response) {
+                case 'think':
+                    state.backgroundIntensity += 0.1;
+                    document.body.style.backgroundColor = `rgba(50, 50, 50, ${state.backgroundIntensity})`;
+                    break;
+                case 'reject':
+                    state.backgroundIntensity -= 0.2;
+                    if (state.backgroundIntensity < 0) state.backgroundIntensity = 0;
+                    document.body.style.backgroundColor = `rgba(0, 0, 0, ${1 - state.backgroundIntensity})`;
+                    break;
+                case 'agree':
+                    createSonarWave({clientX: window.innerWidth/2, clientY: window.innerHeight/2});
+                    createEchoSound();
+                    break;
+            }
+        }
+        
+        function animateAnswers() {
+            const paragraphs = document.querySelectorAll('#answers p');
+            paragraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.classList.add('visible');
+                    createEchoSound();
+                    createSonarWave({
+                        clientX: window.innerWidth/2 + (Math.random() * 200 - 100),
+                        clientY: window.innerHeight/2 + (Math.random() * 200 - 100)
+                    });
+                }, index * 3000);
+            });
+            
+            setTimeout(() => navigateTo('ending'), paragraphs.length * 3000 + 2000);
+        }
+        
+        function prepareEnding() {
+            const finalBtns = document.querySelectorAll('.final-btn');
+            finalBtns.forEach((btn, index) => {
+                setTimeout(() => {
+                    btn.classList.add('visible');
+                }, index * 1000);
+                
+                btn.onclick = () => {
+                    document.querySelector('.container').style.opacity = 0;
+                    document.querySelector('.final-point').style.opacity = 0;
+                    
+                    const timeSpent = ((Date.now() - state.startTime) / 1000).toFixed(1);
+                    
+                    setTimeout(() => {
+                        let summary = "خلاصة تجربتك:\n\n";
+                        summary += `⏱️ الوقت المستغرق: ${timeSpent} ثانية\n`;
+                        summary += `🧠 عدد الأسئلة: ${state.responses.length}\n\n`;
+                        summary += "لا يمكنك أن تكون غيرك...\nلكنك الآن تعرف أنك لا تعرف.";
+                        
+                        alert(summary);
+                        localStorage.setItem('batExperience', JSON.stringify({
+                            responses: state.responses,
+                            timeSpent: timeSpent,
+                            date: new Date().toISOString()
+                        }));
+                        
+                        window.location.reload();
+                    }, 3000);
+                };
+            });
+        }
+        
+        function createSonarWave(e) {
+            const wave = document.createElement('div');
+            wave.classList.add('sonar-wave');
+            wave.style.left = `${e.clientX - 5}px`;
+            wave.style.top = `${e.clientY - 5}px`;
+            document.body.appendChild(wave);
+            
+            createPulseSound();
+            
+            setTimeout(() => {
+                wave.remove();
+            }, 2000);
+        }
+        
+        function setupButtons() {
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mouseover', () => {
+                    createSonarWave({
+                        clientX: btn.getBoundingClientRect().left + btn.offsetWidth/2,
+                        clientY: btn.getBoundingClientRect().top + btn.offsetHeight/2
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
