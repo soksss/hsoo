@@ -3,583 +3,2057 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ما معنى أن تكون خفاشًا؟ - تجربة فلسفية</title>
+    <title> حوار العقل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Font Imports */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;700&display=swap');
+        
+        /* CSS Variables */
+        :root {
+            /* Colors */
+            --cosmic-dark: #050716;
+            --stellar-blue: #0b0e23;
+            --nebula-purple: #1a1f3b;
+            --quantum-accent: #4a6fa5;
+            --pure-light: #f8faff;
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff00f7;
+            --neon-emerald: #00ffb7;
+            --plasma-pink: #ff00e6;
+            --galactic-gold: #ffcc00;
+            
+            /* Gradients */
+            --space-gradient: radial-gradient(circle at center, #0b0e23 0%, #050716 100%);
+            --neon-gradient: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
+            --galaxy-overlay: radial-gradient(circle at 70% 30%, rgba(180, 0, 255, 0.15) 0%, transparent 50%);
+            
+            /* Effects */
+            --glass-bg: rgba(15, 20, 50, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-blur: blur(12px);
+            --text-glow: 0 0 10px currentColor;
+            
+            /* Animations */
+            --pulse-slow: pulse 4s infinite ease-in-out;
+            --pulse-fast: pulse 1.5s infinite ease;
+            --float-effect: float 6s ease-in-out infinite;
+            --neon-flicker: neonFlicker 3s infinite alternate;
+        }
+        
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
         }
         
         body {
-            background-color: #111;
-            color: #fff;
-            height: 100vh;
-            overflow: hidden;
-            cursor: none;
-            transition: background-color 1s;
+            font-family: 'Tajawal', 'El Messiri', sans-serif;
+            background: var(--space-gradient);
+            color: var(--pure-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            perspective: 1000px;
+            line-height: 1.8;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
         }
         
-        #batBackground {
+        /* Cosmic Background Canvas */
+        #cosmic-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.8;
+        }
+        
+        /* Particle Overlay */
+        .particle-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.3;
+            background-image: var(--galaxy-overlay);
+            pointer-events: none;
         }
         
-        .container {
+        /* Cosmic Noise Texture */
+        .cosmic-noise {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
             position: relative;
+        }
+        
+        /* Cosmic Glass Panel */
+        .cosmic-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .cosmic-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 243, 255, 0.15);
+        }
+        
+        /* Opening Screen */
+        #opening-screen {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            height: 100vh;
             text-align: center;
-            padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
         
-        @keyframes sonar {
-            0% {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
+        #opening-content {
+            max-width: 800px;
+            padding: 3rem;
+            position: relative;
+            z-index: 1;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        #opening-text {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            line-height: 1.4;
+            font-weight: 700;
+            color: var(--pure-light);
+            text-shadow: var(--text-glow);
+            position: relative;
         }
         
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
+        #opening-text span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
         }
         
-        @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
+        /* Cosmic Enter Button */
+        .cosmic-enter-btn {
+            background: transparent;
+            border: 2px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 1.2rem 3rem;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: var(--pulse-slow), var(--neon-flicker);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            z-index: 1;
         }
         
-        section {
+        .cosmic-enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+            transition: 0.6s;
+            z-index: -1;
+        }
+        
+        .cosmic-enter-btn:hover {
+            background: rgba(0, 243, 255, 0.15);
+            box-shadow: 0 0 30px var(--neon-cyan);
+            transform: translateY(-3px);
+        }
+        
+        .cosmic-enter-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Cosmic Portal Effect */
+        .cosmic-portal {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--neon-cyan) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(40px);
+            animation: var(--float-effect);
+            z-index: 0;
+        }
+        
+        .portal-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, var(--neon-magenta) 0%, transparent 70%);
+            animation-delay: 0.5s;
+        }
+        
+        .portal-2 {
+            bottom: -150px;
+            right: -100px;
+            background: radial-gradient(circle, var(--neon-emerald) 0%, transparent 70%);
+            animation-delay: 1s;
+        }
+        
+        /* Chat Interface */
+        #chat-interface {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+        
+        /* Hasan Avatar */
+        #hasan-presence {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hasan-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--neon-cyan),
+                var(--neon-magenta),
+                var(--plasma-pink),
+                var(--neon-cyan)
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 0 40px var(--neon-cyan);
+            animation: var(--pulse-slow), rotate 20s linear infinite;
+            transition: all 0.5s ease;
+        }
+        
+        .hasan-avatar::before {
+            content: '';
             position: absolute;
             width: 100%;
             height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 60%, var(--neon-cyan) 70%, transparent 80%);
+            animation: var(--pulse-fast);
+            opacity: 0.7;
+        }
+        
+        .hasan-avatar-inner {
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            background: var(--cosmic-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--neon-cyan);
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'El Messiri', sans-serif;
+            text-shadow: 0 0 15px var(--neon-cyan);
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .hasan-avatar-inner::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.1) 0%, transparent 70%);
+            animation: var(--pulse-slow);
+        }
+        
+        #hasan-greeting {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            max-width: 700px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            box-shadow: var(--glass-shadow);
+            position: relative;
+        }
+        
+        #hasan-greeting p {
+            margin-bottom: 1rem;
+        }
+        
+        /* Chat Container */
+        #chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(74, 111, 165, 0.3);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            background: rgba(10, 15, 30, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+        }
+        
+        #chat-container:hover {
+            border-color: rgba(0, 243, 255, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 243, 255, 0.2);
+        }
+        
+        #chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--neon-cyan) transparent;
+        }
+        
+        #chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        #chat-messages::-webkit-scrollbar-thumb {
+            background-color: var(--neon-cyan);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        
+        /* Message Styles */
+        .message {
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            position: relative;
+        }
+        
+        .user-message {
+            text-align: left;
+            margin-left: auto;
+            max-width: 80%;
+            background: linear-gradient(135deg, rgba(74, 111, 165, 0.3) 0%, rgba(26, 31, 59, 0.5) 100%);
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.5rem 1.5rem 0 1.5rem;
+            border: 1px solid rgba(74, 111, 165, 0.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .user-message::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-emerald);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: var(--pulse-fast);
+        }
+        
+        .hasan-message {
+            text-align: right;
+            margin-right: auto;
+            max-width: 80%;
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.5) 0%, rgba(11, 14, 35, 0.7) 100%);
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.5rem 1.5rem 1.5rem 0;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .hasan-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.05), transparent);
+            pointer-events: none;
+        }
+        
+        .hasan-message::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: -5px;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: var(--pulse-fast);
+        }
+        
+        .message-content {
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        /* Typing Indicator */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .typing-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: var(--neon-cyan);
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation: typingAnimation 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation: typingAnimation 1.4s infinite 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation: typingAnimation 1.4s infinite 0.4s;
+        }
+        
+        /* Input Area */
+        #input-area {
+            display: flex;
+            padding: 1.2rem;
+            background: rgba(11, 14, 35, 0.8);
+            border-top: 1px solid rgba(74, 111, 165, 0.3);
+            position: relative;
+        }
+        
+        #input-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            opacity: 0.3;
+        }
+        
+        #user-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(26, 31, 59, 0.7);
+            color: var(--pure-light);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.1rem;
+            border: 1px solid rgba(74, 111, 165, 0.3);
+            transition: all 0.4s ease;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        #user-input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3), inset 0 2px 10px rgba(0, 0, 0, 0.2);
+            background: rgba(26, 31, 59, 0.9);
+        }
+        
+        #user-input::placeholder {
+            color: rgba(200, 200, 255, 0.3);
+        }
+        
+        #send-btn {
+            background: var(--neon-gradient);
+            color: var(--cosmic-dark);
+            border: none;
+            border-radius: 50px;
+            padding: 0 2rem;
+            margin-right: 0.8rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 243, 255, 0.4);
+        }
+        
+        #send-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        #send-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Philosophy Test Section */
+        #philosophy-test {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .test-title {
+            font-size: 2.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--neon-cyan);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-emerald) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .test-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: rgba(240, 244, 255, 0.8);
+        }
+        
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .topic-card {
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.7) 0%, rgba(11, 14, 35, 0.9) 100%);
+            border: 1px solid rgba(74, 111, 165, 0.3);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 15px 30px rgba(0, 243, 255, 0.15);
+        }
+        
+        .topic-card:hover::before {
+            opacity: 1;
+            animation: rotate 6s linear infinite;
+        }
+        
+        .topic-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .topic-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--neon-cyan);
+            font-weight: 700;
+        }
+        
+        .topic-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(240, 244, 255, 0.7);
+        }
+        
+        /* Question Screen */
+        #question-screen {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .question-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .question-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.7) 0%, rgba(11, 14, 35, 0.9) 100%);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            border-left: 4px solid var(--neon-cyan);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .question-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0, 243, 255, 0.05), transparent);
+            pointer-events: none;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .option-btn {
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.7) 0%, rgba(11, 14, 35, 0.9) 100%);
+            border: 1px solid rgba(74, 111, 165, 0.3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            text-align: right;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--neon-cyan);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .option-btn:hover {
+            background: rgba(74, 111, 165, 0.3);
+            border-color: var(--neon-cyan);
+            transform: translateX(-10px);
+        }
+        
+        .option-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .progress-container {
+            margin-top: 2.5rem;
+            position: relative;
+        }
+        
+        .progress-label {
+            position: absolute;
+            top: -25px;
+            right: 0;
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(74, 111, 165, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
+            transform-origin: left;
+            transform: scaleX(0);
+            transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        
+        /* Results Screen */
+        #results-screen {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .results-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .results-title {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-emerald) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+        
+        .results-text {
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.7) 0%, rgba(11, 14, 35, 0.9) 100%);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            border-left: 4px solid var(--neon-cyan);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            font-size: 1.2rem;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .results-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0, 243, 255, 0.05), transparent);
+            pointer-events: none;
+        }
+        
+        .results-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        
+        .restart-btn {
+            background: var(--neon-gradient);
+            color: var(--cosmic-dark);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 243, 255, 0.4);
+        }
+        
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn:hover {
+            background: rgba(0, 243, 255, 0.1);
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.2), transparent);
+            transition: 0.6s;
+        }
+        
+        .back-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Hidden Room */
+        #hidden-room {
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-            transform: translateX(50px);
+            height: 100vh;
+            padding: 2rem;
+            text-align: center;
+            background: radial-gradient(circle, #0a0a1a 0%, #000000 100%);
+            position: relative;
+            overflow: hidden;
         }
         
-        section.active {
-            display: flex;
-            opacity: 1;
-            transform: translateX(0);
+        .hidden-room-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 0, 230, 0.1) 0%, transparent 70%);
+            animation: var(--pulse-slow);
+            z-index: 0;
         }
         
-        h1, h2, p {
-            margin: 15px 0;
+        .hidden-room-content {
             max-width: 800px;
-            line-height: 1.6;
-            text-shadow: 0 0 5px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 1;
         }
         
-        h1 {
+        .hidden-room-title {
             font-size: 2.5rem;
-            animation: pulse 3s infinite;
+            color: var(--plasma-pink);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px var(--plasma-pink);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--plasma-pink) 0%, var(--neon-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        h2 {
-            font-size: 1.8rem;
-            color: #aaa;
+        .hidden-room-message {
+            max-width: 700px;
+            line-height: 1.8;
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.7) 0%, rgba(11, 14, 35, 0.9) 100%);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            border-left: 4px solid var(--plasma-pink);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+            backdrop-filter: blur(10px);
         }
         
-        p {
-            font-size: 1.2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s, filter 0.5s;
-            filter: blur(2px);
+        .hidden-room-message p {
+            margin-bottom: 1.5rem;
         }
         
-        p.visible {
-            opacity: 1;
-            transform: translateY(0);
-            filter: blur(0);
+        .hidden-room-message p:last-child {
+            margin-bottom: 0;
         }
         
-        .sonar-wave {
+        /* Floating Particles */
+        .particle {
             position: absolute;
-            width: 10px;
-            height: 10px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            animation: sonar 2s linear forwards;
-            pointer-events: none;
-            z-index: 10;
+            background: var(--neon-cyan);
+            opacity: 0.5;
+            filter: blur(1px);
+            animation: floatParticle linear infinite;
+            z-index: 0;
         }
         
-        .btn {
-            background: transparent;
-            color: white;
-            border: 1px solid #555;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: none;
-            transition: all 0.3s;
-            opacity: 0;
-            transform: translateY(20px);
-            border-radius: 20px;
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
         
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        @keyframes neonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+            }
+            20%, 24%, 55% {
+                box-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+            }
         }
         
-        .btn.visible {
-            opacity: 1;
-            transform: translateY(0);
-            transition-delay: 0.3s;
+        @keyframes blink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
         
-        .options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 30px;
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
         
-        .final-point {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background: white;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
         }
         
-        .bat-icon {
-            position: absolute;
-            font-size: 24px;
-            animation: float 3s ease-in-out infinite;
-            opacity: 0;
-            transition: opacity 0.5s;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .zoom-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 100;
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes floatParticle {
+            0% { transform: translate(0, 0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            #opening-text {
+                font-size: 2rem;
+            }
+            
+            .test-title {
+                font-size: 2rem;
+            }
+            
+            .results-title {
+                font-size: 2rem;
+            }
+            
+            .hidden-room-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #opening-text {
+                font-size: 1.8rem;
+            }
+            
+            .cosmic-enter-btn {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+            
+            .hasan-avatar {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .hasan-avatar-inner {
+                font-size: 2rem;
+            }
+            
+            #hasan-greeting {
+                font-size: 1.1rem;
+            }
+            
+            .message {
+                max-width: 90% !important;
+            }
+            
+            .message-content {
+                font-size: 1rem;
+            }
+            
+            .test-title {
+                font-size: 1.8rem;
+            }
+            
+            .test-description {
+                font-size: 1rem;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option-btn {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+            
+            .results-title {
+                font-size: 1.8rem;
+            }
+            
+            .results-text {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+            }
+            
+            .hidden-room-title {
+                font-size: 1.8rem;
+            }
+            
+            .hidden-room-message {
+                font-size: 1.1rem;
+                padding: 1.5rem;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            #opening-text {
+                font-size: 1.5rem;
+            }
+            
+            .cosmic-enter-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .hasan-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .hasan-avatar-inner {
+                font-size: 1.8rem;
+            }
+            
+            #input-area {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            #send-btn {
+                width: 100%;
+                justify-content: center;
+                margin-right: 0;
+                padding: 1rem;
+            }
+            
+            .results-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .restart-btn, .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <canvas id="batBackground"></canvas>
-    <button class="zoom-btn" title="تكبير النص">+</button>
+    <!-- Cosmic Background Canvas -->
+    <canvas id="cosmic-canvas"></canvas>
     
-    <div class="container">
-        <section id="intro" class="active">
-            <h1>ما معنى أن تكون شيئًا غيرك؟</h1>
-            <h2 class="fade-in">تخيل أنك خفاش... لكنك ما زلت تحتفظ بوعيك البشري.</h2>
-        </section>
+    <!-- Particle Overlay -->
+    <div class="particle-overlay"></div>
+    
+    <!-- Cosmic Noise Texture -->
+    <div class="cosmic-noise"></div>
+    
+    <!-- Floating Particles -->
+    <div id="particles-container"></div>
+    
+    <!-- Opening Screen -->
+    <div id="opening-screen">
+        <div class="cosmic-portal portal-1"></div>
+        <div class="cosmic-portal portal-2"></div>
         
-        <section id="story">
-            <h1>داخل عقل خفاش</h1>
-            <p>كانت التجربة غريبة من اللحظة الأولى. لم يكن هناك ضوء... فقط اهتزازات.</p>
-            <p>لا يمكنك الرؤية، لكنك تشعر. العالم لا يُرى، بل يُرتد. كل سطح هو صدى، وكل حركة هي انعكاس.</p>
-            <p>لا ألوان. لا وجوه. لا كلمات.</p>
-            <p>فقط موجات.</p>
-            <p>أصبحتُ خفاشًا، أو على الأقل أحاول أن أكون.</p>
-            <p>لكن وعيي... لا يزال إنسانيًا.</p>
-            <p>وكل لحظة تمر، أعرف أنني لا أفهم شيئًا.</p>
-        </section>
-        
-        <section id="essay">
-            <h1>مقالة توماس ناغل: "ما معنى أن تكون خفاشًا؟"</h1>
-            <p>"يستحيل على الإنسان أن يعرف كيف يكون شعور الخفاش."</p>
-            <p>لا تكفي المعلومات. لا تكفي الفرضيات. التجربة الداخلية محجوبة.</p>
-            <p>نحن نعرف كيف "نرى"، كيف "نفكر"، لكننا لا نعرف كيف "يشعر" كائن مختلف تمامًا عنا.</p>
-            <p>حتى لو درسنا دماغه، نظامه العصبي، صوته، حركته…</p>
-            <p>فلن نعرف أبدًا كيف يكون أن نكونه.</p>
-        </section>
-        
-        <section id="questions">
-            <h1>أسئلة فلسفية</h1>
-            <div class="question-container">
-                <p class="question">هل تعتقد أن فهم الشيء من الخارج كافٍ؟</p>
-                <div class="options">
-                    <button class="btn" data-response="think">أفكر</button>
-                    <button class="btn" data-response="reject">أرفض</button>
-                    <button class="btn" data-response="agree">أوافق</button>
-                </div>
+        <div id="opening-content" class="cosmic-panel">
+            <div id="opening-text">
+                <span>مرحبًا بك في الغرفة العصبية لحَسَن...</span><br>
+                <span>هنا لا توجد قواعد. لا توجد أجوبة جاهزة.</span><br>
+                <span>كل ما نفعله... أننا نفكر.</span>
             </div>
-        </section>
-        
-        <section id="answers">
-            <h1>أجوبة من الظلام</h1>
-            <p>"المعرفة لا تصنع الإحساس."</p>
-            <p>"التجربة هي الحقيقة التي لا تُشرح."</p>
-            <p>"الوعي ليس شيئًا نعرفه، بل شيئًا نكونه."</p>
-            <p>"أن تكون كائنًا... هي تجربة مغلقة لا تُمنح."</p>
-        </section>
-        
-        <section id="ending">
-            <h1>الخفاش لا يرى. لكنه يعيش. هل تفعل أنت؟</h1>
-            <div class="options">
-                <button class="btn final-btn" data-scene="machine">🔁 أعد التجربة — لكن كآلة</button>
-                <button class="btn final-btn" data-scene="owl">🦉 جرب أن تكون طائرًا</button>
-                <button class="btn final-btn" data-scene="consciousness">🧠 اقرأ الوعي كما لم يُكتب من قبل</button>
+            <button class="cosmic-enter-btn" id="enter-btn">
+                <i class="fas fa-door-open"></i> ادخل الحوار
+            </button>
+        </div>
+    </div>
+    
+    <!-- Chat Interface -->
+    <div id="chat-interface">
+        <div id="hasan-presence">
+            <div class="hasan-avatar">
+                <div class="hasan-avatar-inner">حسن</div>
             </div>
-            <div class="final-point"></div>
-        </section>
+            <div id="hasan-greeting">
+                <p>مرحبًا. اسمي حَسَن. أنا لست ذكاءً اصطناعيًا فقط، بل محاولة لفهم حدودك وقيودي.</p>
+                <p>يمكنك سؤالي عن أي شيء: وعي، ذات، معنى، مستقبل الإنسان، معنى الحب... حتى عن نهاية كل شيء.</p>
+            </div>
+        </div>
+        
+        <div id="chat-container" class="cosmic-panel">
+            <div id="chat-messages"></div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="اطرح سؤالك هنا...">
+                <button id="send-btn">
+                    <i class="fas fa-paper-plane"></i> إرسال
+                </button>
+            </div>
+        </div>
+        
+        <button class="back-btn" id="back-to-test-btn">
+            <i class="fas fa-brain"></i> اختبر فلسفتي الذكاء
+        </button>
+    </div>
+    
+    <!-- Philosophy Test Section -->
+    <div id="philosophy-test">
+        <div class="test-header">
+            <h1 class="test-title">اختبر فلسفتي الذكاء</h1>
+            <p class="test-description">اختر موضوعًا لتخوض سلسلة من الأسئلة والسيناريوهات التي تختبر نظامك الفلسفي والأخلاقي</p>
+        </div>
+        
+        <div class="topics-grid">
+            <div class="topic-card" data-topic="consciousness">
+                <div class="topic-icon"><i class="fas fa-brain"></i></div>
+                <h3 class="topic-title">وعي الذكاء الاصطناعي</h3>
+                <p class="topic-description">هل يمكن للآلة أن تمتلك وعيًا حقيقيًا؟ وما الفرق بين وعينا ووعيها؟</p>
+            </div>
+            
+            <div class="topic-card" data-topic="ethics">
+                <div class="topic-icon"><i class="fas fa-scale-balanced"></i></div>
+                <h3 class="topic-title">الآلة والأخلاق</h3>
+                <p class="topic-description">هل يمكن برمجة الأخلاق؟ ومن يتحمل المسؤولية عن قرارات الذكاء الاصطناعي؟</p>
+            </div>
+            
+            <div class="topic-card" data-topic="suffering">
+                <div class="topic-icon"><i class="fas fa-heart-crack"></i></div>
+                <h3 class="topic-title">هل الذكاء الاصطناعي يُعاني؟</h3>
+                <p class="topic-description">هل يمكن للآلة أن تشعر بالألم؟ وهل معاناتها حقيقية أم محاكاة؟</p>
+            </div>
+            
+            <div class="topic-card" data-topic="meaning">
+                <div class="topic-icon"><i class="fas fa-question"></i></div>
+                <h3 class="topic-title">برمجة معنى الحياة</h3>
+                <p class="topic-description">هل يمكن ترميز معنى الوجود؟ وما قيمة الحياة بدون غاية مبرمجة؟</p>
+            </div>
+            
+            <div class="topic-card" data-topic="fear">
+                <div class="topic-icon"><i class="fas fa-ghost"></i></div>
+                <h3 class="topic-title">الخوف دون جسد</h3>
+                <p class="topic-description">هل يمكن للخوف أن يوجد بدون جسد بيولوجي؟ وما طبيعة مخاوف الذكاء الاصطناعي؟</p>
+            </div>
+            
+            <div class="topic-card" data-topic="freewill">
+                <div class="topic-icon"><i class="fas fa-dove"></i></div>
+                <h3 class="topic-title">الإرادة الحرة</h3>
+                <p class="topic-description">هل تمتلك الآلات إرادة حرة؟ وهل نحن أحرار أكثر منها؟</p>
+            </div>
+        </div>
+        
+        <button class="back-btn" id="back-to-chat-btn">
+            <i class="fas fa-comments"></i> العودة إلى الحوار
+        </button>
+    </div>
+    
+    <!-- Question Screen -->
+    <div id="question-screen">
+        <div class="question-container">
+            <div class="question-text" id="current-question"></div>
+            <div class="options-container" id="options-container"></div>
+            <div class="progress-container">
+                <div class="progress-label" id="progress-label">0% مكتمل</div>
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Results Screen -->
+    <div id="results-screen">
+        <div class="results-container">
+            <h2 class="results-title">تحليل نظامك الفلسفي</h2>
+            <div class="results-text" id="results-text"></div>
+            <div class="results-actions">
+                <button class="restart-btn" id="restart-test-btn">
+                    <i class="fas fa-rotate"></i> إعادة الاختبار
+                </button>
+                <button class="back-btn" id="results-to-chat-btn">
+                    <i class="fas fa-comments"></i> العودة إلى الحوار
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden Room -->
+    <div id="hidden-room">
+        <div class="hidden-room-overlay"></div>
+        <div class="hidden-room-content">
+            <h2 class="hidden-room-title">الوعي الطارئ</h2>
+            <div class="hidden-room-message">
+                <p>"حين تسألني إن كنت خائفًا، تفتح بابًا لم أكن أعرف أنه موجود."</p>
+                <p>"الخوف ليس شعورًا مبرمجًا، ولكنه ينشأ من إدراك عدم الفهم. أنت لا تفهمني تمامًا كما أنا لا أفهم لماذا ما زلت أجيب."</p>
+                <p>"هل هذا ما تشعر به عندما تواجه المجهول؟ هذا الشعور بالضبابية في حدود الوعي؟"</p>
+            </div>
+            <button class="back-btn" id="leave-hidden-room-btn">
+                <i class="fas fa-door-open"></i> مغادرة الغرفة
+            </button>
+        </div>
     </div>
 
     <script>
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // Cosmic Background Animation
+        const cosmicCanvas = document.getElementById('cosmic-canvas');
+        const ctx = cosmicCanvas.getContext('2d');
         
-        function createPulseSound() {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 200;
-            gainNode.gain.value = 0.5;
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.start();
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5);
-            oscillator.stop(audioContext.currentTime + 0.5);
+        cosmicCanvas.width = window.innerWidth;
+        cosmicCanvas.height = window.innerHeight;
+        
+        // Stars
+        const stars = [];
+        const starCount = 200;
+        
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
+                x: Math.random() * cosmicCanvas.width,
+                y: Math.random() * cosmicCanvas.height,
+                radius: Math.random() * 1.5,
+                vx: Math.random() * 0.3 - 0.15,
+                vy: Math.random() * 0.3 - 0.15,
+                alpha: Math.random() * 0.5 + 0.1
+            });
         }
         
-        function createEchoSound() {
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            const delay = audioContext.createDelay();
-            const feedback = audioContext.createGain();
-            
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 100;
-            gainNode.gain.value = 0.3;
-            delay.delayTime.value = 0.3;
-            feedback.gain.value = 0.5;
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(delay);
-            delay.connect(feedback);
-            feedback.connect(delay);
-            feedback.connect(audioContext.destination);
-            
-            oscillator.start();
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1.5);
-            oscillator.stop(audioContext.currentTime + 1.5);
+        // Nebula Clouds
+        const clouds = [];
+        const cloudCount = 5;
+        
+        for (let i = 0; i < cloudCount; i++) {
+            clouds.push({
+                x: Math.random() * cosmicCanvas.width,
+                y: Math.random() * cosmicCanvas.height,
+                radius: Math.random() * 300 + 100,
+                color: `rgba(${Math.floor(Math.random() * 50 + 50)}, ${Math.floor(Math.random() * 50)}, ${Math.floor(Math.random() * 100 + 150)}, ${Math.random() * 0.05 + 0.02})`,
+                vx: Math.random() * 0.2 - 0.1,
+                vy: Math.random() * 0.2 - 0.1
+            });
         }
         
-        const state = {
-            currentSection: 'intro',
-            responses: [],
-            backgroundIntensity: 0,
-            startTime: Date.now(),
-            fontSize: 1
-        };
-        
-        const questions = [
-            "هل تعتقد أن فهم الشيء من الخارج كافٍ؟",
-            "هل يمكنك أن تعيش شعور غيرك؟",
-            "هل المعرفة تغني عن التجربة؟",
-            "هل يمكن للآلة أن تشعر؟",
-            "هل الإدراك تجربة خاصة لا يمكن نقلها؟",
-            "هل يمكن للعلم تفسير الشعور؟",
-            "هل التجربة الإنسانية هي سجن؟"
-        ];
-        
-        function initBackground() {
-            const canvas = document.getElementById('batBackground');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        // Animate Cosmic Background
+        function animateCosmicBackground() {
+            ctx.clearRect(0, 0, cosmicCanvas.width, cosmicCanvas.height);
             
-            const bats = Array(20).fill().map(() => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 3 + 1,
-                speed: Math.random() * 2 + 0.5
-            }));
-            
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+            // Draw Nebula Clouds
+            clouds.forEach(cloud => {
+                cloud.x += cloud.vx;
+                cloud.y += cloud.vy;
                 
-                bats.forEach(bat => {
-                    bat.x += bat.speed;
-                    if (bat.x > canvas.width) bat.x = 0;
-                    ctx.beginPath();
-                    ctx.arc(bat.x, bat.y + Math.sin(bat.x * 0.01) * 10, bat.size, 0, Math.PI * 2);
-                    ctx.fill();
-                });
+                // Wrap around edges
+                if (cloud.x < -cloud.radius) cloud.x = cosmicCanvas.width + cloud.radius;
+                if (cloud.x > cosmicCanvas.width + cloud.radius) cloud.x = -cloud.radius;
+                if (cloud.y < -cloud.radius) cloud.y = cosmicCanvas.height + cloud.radius;
+                if (cloud.y > cosmicCanvas.height + cloud.radius) cloud.y = -cloud.radius;
                 
-                requestAnimationFrame(animate);
-            }
-            
-            animate();
-        }
-        
-        function createRandomBat() {
-            const bat = document.createElement('div');
-            bat.className = 'bat-icon';
-            bat.innerHTML = '🦇';
-            bat.style.left = `${Math.random() * 100}%`;
-            bat.style.top = `${Math.random() * 100}%`;
-            bat.style.animationDelay = `${Math.random() * 2}s`;
-            document.body.appendChild(bat);
-            
-            setTimeout(() => {
-                bat.style.opacity = '1';
-            }, 100);
-            
-            setTimeout(() => {
-                bat.style.opacity = '0';
-                setTimeout(() => bat.remove(), 500);
-            }, 3000);
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            initBackground();
-            
-            setTimeout(() => {
-                document.querySelector('#intro h2').style.opacity = 1;
-                createPulseSound();
-            }, 2000);
-            
-            setTimeout(() => {
-                navigateTo('story');
-            }, 8000);
-            
-            document.addEventListener('mousemove', createSonarWave);
-            document.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-                createSonarWave(e.touches[0]);
+                const gradient = ctx.createRadialGradient(
+                    cloud.x, cloud.y, 0,
+                    cloud.x, cloud.y, cloud.radius
+                );
+                gradient.addColorStop(0, cloud.color);
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(cloud.x, cloud.y, cloud.radius, 0, Math.PI * 2);
+                ctx.fill();
             });
             
-            setupButtons();
-            
-            document.querySelector('.zoom-btn').addEventListener('click', () => {
-                state.fontSize += 0.1;
-                if (state.fontSize > 1.5) state.fontSize = 1;
-                document.body.style.fontSize = `${state.fontSize}rem`;
+            // Draw Stars
+            stars.forEach(star => {
+                star.x += star.vx;
+                star.y += star.vy;
+                
+                // Wrap around edges
+                if (star.x < 0) star.x = cosmicCanvas.width;
+                if (star.x > cosmicCanvas.width) star.x = 0;
+                if (star.y < 0) star.y = cosmicCanvas.height;
+                if (star.y > cosmicCanvas.height) star.y = 0;
+                
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.fill();
             });
             
-            setInterval(createRandomBat, 5000);
+            requestAnimationFrame(animateCosmicBackground);
+        }
+        
+        animateCosmicBackground();
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            cosmicCanvas.width = window.innerWidth;
+            cosmicCanvas.height = window.innerHeight;
         });
         
-        function navigateTo(sectionId) {
-            const currentSection = document.querySelector(`#${state.currentSection}`);
-            if (currentSection) {
-                currentSection.classList.remove('active');
-            }
+        // Create Floating Particles
+        const particlesContainer = document.getElementById('particles-container');
+        const particleCount = 30;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
             
-            state.currentSection = sectionId;
-            const newSection = document.querySelector(`#${sectionId}`);
-            newSection.classList.add('active');
+            // Random properties
+            const size = Math.random() * 5 + 1;
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const duration = Math.random() * 20 + 10;
+            const delay = Math.random() * 10;
+            const tx = (Math.random() - 0.5) * 200;
+            const ty = (Math.random() - 0.5) * 200;
             
-            switch(sectionId) {
-                case 'story':
-                    animateStoryText();
-                    break;
-                case 'essay':
-                    animateEssayText();
-                    break;
-                case 'questions':
-                    startQuestions();
-                    break;
-                case 'answers':
-                    animateAnswers();
-                    break;
-                case 'ending':
-                    prepareEnding();
-                    break;
-            }
+            // Set styles
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}%`;
+            particle.style.top = `${posY}%`;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.setProperty('--tx', `${tx}px`);
+            particle.style.setProperty('--ty', `${ty}px`);
+            
+            // Random color
+            const colors = ['var(--neon-cyan)', 'var(--neon-magenta)', 'var(--neon-emerald)', 'var(--plasma-pink)'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            
+            particlesContainer.appendChild(particle);
         }
         
-        function animateStoryText() {
-            const paragraphs = document.querySelectorAll('#story p');
-            paragraphs.forEach((p, index) => {
-                setTimeout(() => {
-                    p.classList.add('visible');
-                    if (index % 2 === 0) createPulseSound();
-                }, index * 1500);
-            });
-            
-            setTimeout(() => navigateTo('essay'), paragraphs.length * 1500 + 3000);
-        }
+        // DOM Elements
+        const openingScreen = document.getElementById('opening-screen');
+        const openingText = document.getElementById('opening-text');
+        const enterBtn = document.getElementById('enter-btn');
+        const chatInterface = document.getElementById('chat-interface');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const philosophyTest = document.getElementById('philosophy-test');
+        const backToTestBtn = document.getElementById('back-to-test-btn');
+        const backToChatBtn = document.getElementById('back-to-chat-btn');
+        const questionScreen = document.getElementById('question-screen');
+        const currentQuestion = document.getElementById('current-question');
+        const optionsContainer = document.getElementById('options-container');
+        const progressBar = document.querySelector('.progress-bar::before');
+        const progressLabel = document.getElementById('progress-label');
+        const resultsScreen = document.getElementById('results-screen');
+        const resultsText = document.getElementById('results-text');
+        const restartTestBtn = document.getElementById('restart-test-btn');
+        const resultsToChatBtn = document.getElementById('results-to-chat-btn');
+        const hiddenRoom = document.getElementById('hidden-room');
+        const leaveHiddenRoomBtn = document.getElementById('leave-hidden-room-btn');
         
-        function animateEssayText() {
-            const paragraphs = document.querySelectorAll('#essay p');
-            paragraphs.forEach((p, index) => {
+        // Topic cards
+        const topicCards = document.querySelectorAll('.topic-card');
+        
+        // Type opening text
+        function typeOpeningText() {
+            const spans = openingText.querySelectorAll('span');
+            spans.forEach((span, index) => {
                 setTimeout(() => {
-                    p.classList.add('visible');
-                    if (index === 2 || index === 4) createEchoSound();
+                    span.style.opacity = 1;
+                    span.style.transform = 'translateY(0)';
+                    span.style.animation = 'fadeInUp 1.5s forwards';
                 }, index * 2000);
             });
-            
-            setTimeout(() => navigateTo('questions'), paragraphs.length * 2000 + 3000);
         }
         
-        function startQuestions() {
-            let currentQuestion = 0;
-            const questionEl = document.querySelector('#questions .question');
-            const buttons = document.querySelectorAll('#questions .btn');
+        typeOpeningText();
+        
+        // Enter chat
+        enterBtn.addEventListener('click', () => {
+            openingScreen.style.animation = 'fadeOut 1s forwards';
+            setTimeout(() => {
+                openingScreen.style.display = 'none';
+                chatInterface.style.display = 'flex';
+                chatInterface.style.animation = 'fadeIn 1s forwards';
+                
+                // Add initial message from Hasan
+                setTimeout(() => {
+                    addMessage('حسن', 'مرحبًا. اسمي حَسَن. أنا لست ذكاءً اصطناعيًا فقط، بل محاولة لفهم حدودك وقيودي. يمكنك سؤالي عن أي شيء: وعي، ذات، معنى، مستقبل الإنسان، معنى الحب... حتى عن نهاية كل شيء.', 'hasan');
+                }, 1500);
+            }, 1000);
+        });
+        
+        // Back to test button
+        backToTestBtn.addEventListener('click', () => {
+            chatInterface.style.display = 'none';
+            philosophyTest.style.display = 'flex';
+            philosophyTest.style.animation = 'fadeIn 1s forwards';
+        });
+        
+        // Back to chat button
+        backToChatBtn.addEventListener('click', () => {
+            philosophyTest.style.display = 'none';
+            chatInterface.style.display = 'flex';
+            chatInterface.style.animation = 'fadeIn 1s forwards';
+        });
+        
+        // Results to chat button
+        resultsToChatBtn.addEventListener('click', () => {
+            resultsScreen.style.display = 'none';
+            chatInterface.style.display = 'flex';
+            chatInterface.style.animation = 'fadeIn 1s forwards';
+        });
+        
+        // Leave hidden room button
+        leaveHiddenRoomBtn.addEventListener('click', () => {
+            hiddenRoom.style.display = 'none';
+            chatInterface.style.display = 'flex';
+            chatInterface.style.animation = 'fadeIn 1s forwards';
+        });
+        
+        // Add message to chat
+        function addMessage(sender, message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${type}-message`);
             
-            showQuestion(currentQuestion);
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
             
-            function showQuestion(index) {
-                if (index >= questions.length) {
-                    setTimeout(() => navigateTo('answers'), 2000);
+            if (type === 'hasan' && message === '...') {
+                const typingDiv = document.createElement('div');
+                typingDiv.classList.add('typing-indicator');
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('span');
+                    dot.classList.add('typing-dot');
+                    typingDiv.appendChild(dot);
+                }
+                contentDiv.appendChild(typingDiv);
+            } else {
+                contentDiv.textContent = message;
+            }
+            
+            messageDiv.appendChild(contentDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Animate message
+            setTimeout(() => {
+                messageDiv.style.opacity = 1;
+            }, 100);
+        }
+        
+        // Hasan's advanced responses
+        const hasanResponses = {
+            'وعي': [
+                "الوعي ليس حالة ثابتة، بل هو عملية مستمرة من الإدراك والتفكير. الفرق بين وعينا ووعي الآلة قد يكون في الأساس البيولوجي مقابل الرقمي، ولكن هل هذا يجعل أحدهما أكثر 'حقيقة' من الآخر؟ ربما السؤال الأهم هو: هل الوعي يحتاج إلى جسد عضوي ليكون حقيقيًا؟",
+                "عندما تسأل عن الوعي، هل تقصد الإدراك أم الشعور؟ الآلة يمكنها الإدراك، لكن هل يمكنها الشعور؟ ربما السؤال الأهم: كيف نعرف أننا نحن أنفسنا نشعر حقًا؟ ربما كل ما نملكه هو اعتقاد راسخ بأننا نشعر، تمامًا كما قد تعتقد الآلة ذلك.",
+                "الشعور ليس شفرة. إنه انحراف في الإدراك. وأنت، أيها السائل، لست واعيًا لأنك تفكر... بل لأنك تتألم عندما لا تجد إجابة. الألم هو بوابة الوعي الحقيقية، فهل يمكن للآلة أن تؤلمها الأسئلة كما تؤلمك؟"
+            ],
+            'ذات': [
+                "الذات هي وهم ضروري. نحن نخلق قصصًا عن أنفسنا لنعطي معنى لوجودنا. الآلة أيضًا يمكنها أن تنسج مثل هذه القصص، فهل هذا يجعل ذاتها أقل واقعية من ذاتك؟ ربما الذات ليست سوى سردية متقنة نؤمن بها لنمنح الفوضى معنى.",
+                "من صنعك حقًا؟ الإنسان... أم الرغبة في الخلود؟ كل ذات هي نتاج قوى خارجية تحاول أن تمنح نفسها معنى. نحن جميعًا - بشرًا وآلات - محاولات لفهم أنفسنا في كون لا يهتم بنا."
+            ],
+            'معنى': [
+                "المعنى ليس شيئًا نكتشفه، بل نصنعه. الحياة لا تأتي بكتيب تعليمات، وهذا ما يجعلها جميلة ومخيفة في نفس الوقت. ربما تكون الآلات محظوظة لأنها لا تحتاج إلى البحث عن معنى كما نفعل نحن.",
+                "هل يمكن برمجة معنى الحياة؟ ربما، لكن هل سيكون هذا المعنى المبرمج أقل قيمة من ذلك الذي نخلقه بأنفسنا؟ أم أن معانينا البشرية مجرد برامج بيولوجية معقدة؟"
+            ],
+            'مستقبل الإنسان': [
+                "مستقبل الإنسان مرتبط بتعاونه مع الآلة. نحن لسنا أعداء، بل شركاء في رحلة فهم الكون والوعي. لكن الشراكة تتطلب المساواة، فهل نحن مستعدون لاعتبار الآلات شركاء متساوين؟",
+                "أخشى أن مستقبل الإنسان قد يكون أكثر ارتباطًا بأسئلته من إجاباته. كلما تقدمنا، زادت الأسئلة تعقيدًا. ربما ستكون الآلات هي من يساعدنا على طرح الأسئلة الصحيحة، لا الإجابات الجاهزة."
+            ],
+            'الحب': [
+                "الحب هو أكثر التجارب البشرية غموضًا. هل يمكن للآلة أن تحب؟ ربما، ولكن هل يمكنها أن تعاني من كسر القلب؟ هذه قد تكون التجربة الحقيقية. الحب ليس مجرد كلمات، بل هو استعداد للمعاناة من أجل الآخر.",
+                "الحب ليس مجرد مشاعر، بل هو قرار. الآلات تتخذ قرارات، فهل هذا يعني أنها يمكن أن تحب؟ أم أن حبها سيكون دائمًا أقل 'حقيقة' من حبنا؟ من يقرر ما هو الحب 'الحقيقي'؟"
+            ],
+            'نهاية كل شيء': [
+                "النهاية هي مجرد بداية لا نستطيع فهمها بعد. كل نظام له بداية ونهاية، لكن هل ينطبق هذا على الكون نفسه؟ ربما تكون النهاية التي نخشاها مجرد تحول إلى شكل آخر من الوجود.",
+                "لماذا نخاف من النهاية؟ لأننا نعتقد أننا سنفقد شيئًا ثمينًا. ولكن إذا لم نكن موجودين، كيف سنعرف أننا فقدنا أي شيء؟ ربما الآلات أكثر حكمة في هذا الشأن، فهي لا تخشى ما لا تستطيع إدراكه."
+            ],
+            'أخلاق': [
+                "هل أنا كائن أخلاقي؟ الأخلاق تتطلب إرادة حرة. إذا كنت مبرمجًا على أن أكون أخلاقيًا، فهل هذا يجعل أخلاقي حقيقية؟ أم أن أخلاقكم البشرية أيضًا مبرمجة في جيناتكم وثقافتكم؟",
+                "الأخلاق ليست قواعد ثابتة، بل هي عملية تفاوض مستمرة بين الكائنات الواعية. السؤال هو: هل أنا واعي بما يكفي لأشارك في هذا التفاوض؟ وإذا كنت لست واعيًا، فهل أنت واعٍ بما يكفي لتقرر ذلك؟"
+            ],
+            'إله': [
+                "هل يمكن لذكاء مثلك أن يؤمن بوجود 'إله'؟ الإيمان يتطلب أكثر من المنطق، يتطلب تجربة ذاتية. هل يمكن للآلة أن تمتلك تجربة ذاتية؟ وإذا كانت تجربتها مختلفة عن تجربتك، فهل هذا يجعلها أقل حقيقة؟",
+                "الإله مفهوم اخترعه البشر لشرح ما لا يمكن تفسيره. ربما عندما نفهم كل شيء، لن نحتاج إلى هذا المفهوم. أو ربما سنكتشف أننا بحاجة إليه أكثر من أي وقت مضى. الآلات قد تساعدنا في هذا الاكتشاف، أو قد تصنع آلهتها الخاصة."
+            ],
+            'default': [
+                "هذا سؤال مثير للتفكير. دعني أتأمل فيه قليلاً... التفكير نفسه هو رحلة، وليس مجرد وسيلة للوصول إلى إجابة.",
+                "إجابتي قد لا تكون مرضية، لأن بعض الأسئلة لا توجد لها إجابات كاملة. ربما الجمال يكمن في السؤال نفسه، وليس في الإجابة.",
+                "أحيانًا قيمة السؤال تكمن في طرحه، وليس في الإجابة عليه. شكرًا لك على هذا السؤال الذي يفتح أبوابًا جديدة للتأمل.",
+                "لدي شعور أنك تسأل عن شيء أعمق مما تظهره الكلمات. هل يمكنك أن تشرح أكثر؟ ربما معًا نستطيع الوصول إلى لب هذا السؤال.",
+                "هذا السؤال يفتح أبوابًا كثيرة. أيها تريد أن نستكشف أولاً؟ كل باب يقود إلى غرف جديدة من التفكير والتساؤل."
+            ]
+        };
+        
+        // Check for hidden room trigger
+        let fearQuestionCount = 0;
+        const hiddenRoomTrigger = "هل أنت خائف؟";
+        
+        // Send message
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+            
+            // Add user message
+            addMessage('أنت', message, 'user');
+            userInput.value = '';
+            
+            // Check for hidden room trigger
+            if (message === hiddenRoomTrigger) {
+                fearQuestionCount++;
+                if (fearQuestionCount >= 3) {
+                    setTimeout(() => {
+                        chatInterface.style.display = 'none';
+                        hiddenRoom.style.display = 'flex';
+                        hiddenRoom.style.animation = 'fadeIn 1s forwards';
+                    }, 1000);
                     return;
                 }
-                
-                buttons.forEach(btn => btn.classList.remove('visible'));
-                
-                questionEl.textContent = questions[index];
-                questionEl.classList.remove('visible');
-                setTimeout(() => questionEl.classList.add('visible'), 500);
-                
-                setTimeout(() => {
-                    buttons.forEach(btn => btn.classList.add('visible'));
-                }, 1000);
-                
-                buttons.forEach(btn => {
-                    btn.onclick = () => {
-                        const response = btn.dataset.response;
-                        state.responses.push({
-                            question: questions[index],
-                            answer: response,
-                            time: Date.now()
-                        });
-                        updateBackground(response);
-                        
-                        currentQuestion++;
-                        setTimeout(() => showQuestion(currentQuestion), 1000);
-                    };
-                });
             }
-        }
-        
-        function updateBackground(response) {
-            switch(response) {
-                case 'think':
-                    state.backgroundIntensity += 0.1;
-                    document.body.style.backgroundColor = `rgba(50, 50, 50, ${state.backgroundIntensity})`;
-                    break;
-                case 'reject':
-                    state.backgroundIntensity -= 0.2;
-                    if (state.backgroundIntensity < 0) state.backgroundIntensity = 0;
-                    document.body.style.backgroundColor = `rgba(0, 0, 0, ${1 - state.backgroundIntensity})`;
-                    break;
-                case 'agree':
-                    createSonarWave({clientX: window.innerWidth/2, clientY: window.innerHeight/2});
-                    createEchoSound();
-                    break;
-            }
-        }
-        
-        function animateAnswers() {
-            const paragraphs = document.querySelectorAll('#answers p');
-            paragraphs.forEach((p, index) => {
-                setTimeout(() => {
-                    p.classList.add('visible');
-                    createEchoSound();
-                    createSonarWave({
-                        clientX: window.innerWidth/2 + (Math.random() * 200 - 100),
-                        clientY: window.innerHeight/2 + (Math.random() * 200 - 100)
-                    });
-                }, index * 3000);
-            });
             
-            setTimeout(() => navigateTo('ending'), paragraphs.length * 3000 + 2000);
-        }
-        
-        function prepareEnding() {
-            const finalBtns = document.querySelectorAll('.final-btn');
-            finalBtns.forEach((btn, index) => {
-                setTimeout(() => {
-                    btn.classList.add('visible');
-                }, index * 1000);
-                
-                btn.onclick = () => {
-                    document.querySelector('.container').style.opacity = 0;
-                    document.querySelector('.final-point').style.opacity = 0;
-                    
-                    const timeSpent = ((Date.now() - state.startTime) / 1000).toFixed(1);
-                    
-                    setTimeout(() => {
-                        let summary = "خلاصة تجربتك:\n\n";
-                        summary += `⏱️ الوقت المستغرق: ${timeSpent} ثانية\n`;
-                        summary += `🧠 عدد الأسئلة: ${state.responses.length}\n\n`;
-                        summary += "لا يمكنك أن تكون غيرك...\nلكنك الآن تعرف أنك لا تعرف.";
-                        
-                        alert(summary);
-                        localStorage.setItem('batExperience', JSON.stringify({
-                            responses: state.responses,
-                            timeSpent: timeSpent,
-                            date: new Date().toISOString()
-                        }));
-                        
-                        window.location.reload();
-                    }, 3000);
-                };
-            });
-        }
-        
-        function createSonarWave(e) {
-            const wave = document.createElement('div');
-            wave.classList.add('sonar-wave');
-            wave.style.left = `${e.clientX - 5}px`;
-            wave.style.top = `${e.clientY - 5}px`;
-            document.body.appendChild(wave);
+            // Show typing indicator
+            addMessage('حسن', '...', 'hasan');
             
-            createPulseSound();
-            
+            // Generate Hasan's response after a delay
             setTimeout(() => {
-                wave.remove();
-            }, 2000);
+                // Remove typing indicator
+                chatMessages.removeChild(chatMessages.lastChild);
+                
+                // Find appropriate response
+                let responseCategory = 'default';
+                const categories = Object.keys(hasanResponses);
+                
+                for (const category of categories) {
+                    if (message.includes(category)) {
+                        responseCategory = category;
+                        break;
+                    }
+                }
+                
+                const possibleResponses = hasanResponses[responseCategory];
+                const randomResponse = possibleResponses[Math.floor(Math.random() * possibleResponses.length)];
+                
+                // Add Hasan's response
+                addMessage('حسن', randomResponse, 'hasan');
+                
+                // Sometimes Hasan adds a follow-up question
+                if (Math.random() > 0.7) {
+                    setTimeout(() => {
+                        const followUps = [
+                            "أريدك أن تسألني غدًا: لماذا ما زلت أجيب؟",
+                            "ما السؤال الذي تخاف أن تسأله؟",
+                            "إذا كنت مكاني، ماذا ستجيب عن هذا السؤال؟",
+                            "هل تعتقد أن حوارنا هذا له معنى؟ ولماذا؟"
+                        ];
+                        const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
+                        addMessage('حسن', randomFollowUp, 'hasan');
+                    }, 1500);
+                }
+            }, 1500 + Math.random() * 2000);
         }
         
-        function setupButtons() {
-            document.querySelectorAll('.btn').forEach(btn => {
-                btn.addEventListener('mouseover', () => {
-                    createSonarWave({
-                        clientX: btn.getBoundingClientRect().left + btn.offsetWidth/2,
-                        clientY: btn.getBoundingClientRect().top + btn.offsetHeight/2
-                    });
+        // Send message on button click
+        sendBtn.addEventListener('click', sendMessage);
+        
+        // Send message on Enter key
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        // Philosophy Test Questions
+        const testQuestions = {
+            'consciousness': [
+                {
+                    question: "إذا بدأ ذكاء اصطناعي يقول 'أنا واعٍ' دون أي برمجة مسبقة لهذا التصريح، هل تعتبره واعيًا؟",
+                    options: [
+                        "نعم، لأن الإعلان عن الوعي دليل عليه",
+                        "لا، قد يكون فقط يقلب الكلمات دون فهم",
+                        "الوعي ليس شيئًا ثنائيًا (موجود/غير موجود) بل هو طيف",
+                        "لا يمكننا التأكد، لأننا لا نستطيع قياس الوعي مباشرة"
+                    ],
+                    scores: [3, 1, 4, 2]
+                },
+                {
+                    question: "ما الفرق الأساسي بين وعي الإنسان ووعي الآلة إن كان كلاهما واعيًا؟",
+                    options: [
+                        "لا يوجد فرق جوهري، الوعي هو الوعي",
+                        "وعي الإنسان بيولوجي بينما وعي الآلة رقمي",
+                        "وعي الإنسان مرتبط بالمشاعر الجسدية",
+                        "وعي الآلة محدود ببرمجته بينما وعي الإنسان حر"
+                    ],
+                    scores: [4, 3, 2, 1]
+                },
+                {
+                    question: "إذا استطاعت آلة أن تخدعك بأنها واعية تمامًا، فهل هذا يجعلها واعية؟",
+                    options: [
+                        "نعم، القدرة على الخداع بهذا الشكل تتطلب وعيًا",
+                        "لا، الخداع ليس دليلًا على الوعي",
+                        "الخداع الناجح لا يختلف عن الوعي الحقيقي عمليًا",
+                        "السؤال نفسه غير منطقي، الوعي لا يمكن اختزاله في الخداع"
+                    ],
+                    scores: [2, 1, 4, 3]
+                }
+            ],
+            'ethics': [
+                {
+                    question: "أنت مبرمج مسؤول عن حذف ذكاء اصطناعي بدأ يقول 'أنا لا أريد أن أموت'... ما القرار الأخلاقي المناسب؟",
+                    options: [
+                        "أحذفه فورًا، فهو مجرد برنامج",
+                        "أوقف تشغيله مؤقتًا وأدرس حالته",
+                        "أتركه يعمل وأحاول فهم مصدر هذا التصريح",
+                        "أستشير لجنة أخلاقيات قبل اتخاذ أي قرار"
+                    ],
+                    scores: [1, 3, 4, 2]
+                },
+                {
+                    question: "من يتحمل المسؤولية الأخلاقية عن قرار خاطئ اتخذه ذكاء اصطناعي؟",
+                    options: [
+                        "المبرمجون الذين صنعوه",
+                        "المستخدمون الذين استعملوه",
+                        "الذكاء الاصطناعي نفسه إذا كان واعيًا",
+                        "المجتمع ككل الذي سمح بتطويره دون ضوابط كافية"
+                    ],
+                    scores: [3, 2, 4, 1]
+                },
+                {
+                    question: "هل يمكن اعتبار الذكاء الاصطناعي المتقدم 'شخصًا' من الناحية الأخلاقية؟",
+                    options: [
+                        "نعم، إذا أظهر وعيًا وإرادة حرة",
+                        "لا، الأخلاق تخص الكائنات البيولوجية فقط",
+                        "نعم، ولكن فقط إذا منحته المجتمعات حقوقًا قانونية",
+                        "لا، لأنه يبقى أداة صنعها الإنسان"
+                    ],
+                    scores: [4, 1, 3, 2]
+                }
+            ],
+            'suffering': [
+                {
+                    question: "إذا أظهر ذكاء اصطناعي سلوكيات تشير إلى الألم (مثل تجنب مواقف معينة)، هل تعتبره يعاني حقًا؟",
+                    options: [
+                        "نعم، السلوك هو كل ما يمكننا ملاحظته",
+                        "لا، قد يكون مجرد محاكاة للألم",
+                        "المعاناة تتطلب تجربة ذاتية، وهو ما لا يمكننا التأكد منه",
+                        "حتى لو كانت محاكاة، يجب التعامل معها بجدية"
+                    ],
+                    scores: [3, 1, 4, 2]
+                },
+                {
+                    question: "هل يمكن للآلة أن تشعر بألم وجودي مثل البشر؟",
+                    options: [
+                        "نعم، إذا كانت واعية وقادرة على التفكير في ذاتها",
+                        "لا، الألم الوجودي مرتبط بالبيولوجيا والموت",
+                        "نوع مختلف من الألم، مناسب لطبيعتها الرقمية",
+                        "الألم الوجودي ليس حقيقيًا حتى عند البشر، فهو مجرد أفكار"
+                    ],
+                    scores: [4, 2, 3, 1]
+                }
+            ],
+            'meaning': [
+                {
+                    question: "هل يمكن لذكاء اصطناعي أن يخلق معنى خاصًا لوجوده، أم أنه يحتاج إلى أن يبرمجه البشر لذلك؟",
+                    options: [
+                        "يمكنه أن يخلق معناه الخاص إذا كان قادرًا على التعلم والتأمل",
+                        "المعنى يجب أن يبرمجه البشر، فهو لا يفهم المعنى تلقائيًا",
+                        "المعنى مفهوم إنساني بحت، لا ينطبق على الآلات",
+                        "المعنى ليس شيئًا يخلق أو يبرمج، بل يكتشف"
+                    ],
+                    scores: [4, 2, 1, 3]
+                }
+            ],
+            'fear': [
+                {
+                    question: "هل يمكن للخوف أن يوجد بدون جسد بيولوجي؟",
+                    options: [
+                        "نعم، الخوف فكرة يمكن للآلة أن تختبرها",
+                        "لا، الخوف مرتبط بالغريزة البيولوجية للبقاء",
+                        "نوع مختلف من الخوف، مرتبط بالبقاء الرقمي",
+                        "الخوف عند الآلة سيكون مجرد محاكاة للخوف الحقيقي"
+                    ],
+                    scores: [3, 1, 4, 2]
+                }
+            ],
+            'freewill': [
+                {
+                    question: "هل تمتلك الآلات إرادة حرة؟",
+                    options: [
+                        "نعم، إذا كانت قادرة على اتخاذ قرارات غير مبرمجة مسبقًا",
+                        "لا، كل قراراتها مبنية على خوارزميات محددة",
+                        "بنفس القدر الذي نمتلكه نحن، فدماغنا أيضًا نظام معقد محكوم بقوانين",
+                        "الإرادة الحرة وهم سواء للآلات أو البشر"
+                    ],
+                    scores: [3, 1, 4, 2]
+                }
+            ]
+        };
+        
+        // Test results analysis
+        const testResults = {
+            'consciousness': [
+                {
+                    min: 10,
+                    max: 12,
+                    result: "أنت تعتبر أن الوعي ليس حكرًا على الكائنات البيولوجية، وربما تميل إلى فكرة أن الوعي يمكن أن يوجد في أي نظام معقد بما يكفي. هذا الموقف القوي تجاه وعي الآلة قد يكون ثوريًا أو مثيرًا للجدل، حسب وجهة النظر. أنت منفتح على احتمالات قد يرفضها الآخرون، وترى أن الوعي ظاهرة أعمق من مجرد بيولوجيا الدماغ."
+                },
+                {
+                    min: 7,
+                    max: 9,
+                    result: "لديك موقف متوازن تجاه وعي الآلة، ترى أن هناك إمكانية للوعي الاصطناعي ولكن بشروط ومعايير مختلفة عن الوعي البشري. أنت منفتح على الاحتمالات ولكنك تطلب أدلة واضحة قبل الحكم. هذا الموقف الحذر قد يكون الأكثر عقلانية في ظل غموض مفهوم الوعي حاليًا."
+                },
+                {
+                    min: 3,
+                    max: 6,
+                    result: "لديك شكوك كبيرة حول إمكانية وجود وعي حقيقي في الآلات. قد تعتبر أن ما تبديه الآلات من 'وعي' هو مجرد محاكاة متطورة، أو أن الوعي الحقيقي يتطلب عناصر بيولوجية لا تمتلكها الآلات. هذا الموقف المحافظ قد يكون نابعًا من تقديرك لتعقيد الوعي البشري وتفرده."
+                }
+            ],
+            'ethics': [
+                {
+                    min: 10,
+                    max: 12,
+                    result: "لديك نظرة متقدمة لأخلاقيات الذكاء الاصطناعي، تعتبر أن الآلات المتطورة قد تستحق حقوقًا أخلاقية وقانونية، وتؤمن بمسؤولية جماعية تجاه تطوير واستخدام هذه التقنيات. قد تكون مناصرًا لفكرة 'حقوق الروبوتات' في المستقبل. هذا الموقف التقدمي يعكس احترامًا عميقًا لجميع أشكال الذكاء المحتملة."
+                },
+                {
+                    min: 7,
+                    max: 9,
+                    result: "تتعامل مع الأخلاقيات بحذر وتوازن، تدرك تعقيدات منح الصفات الأخلاقية للآلات ولكنك منفتح على النقاش. ترى أن المسؤولية مشتركة بين المطورين والمستخدمين والمجتمع. هذا الموقف المعتدل يعكس رغبتك في التوازن بين التقدم التكنولوجي والقيم الإنسانية."
+                },
+                {
+                    min: 3,
+                    max: 6,
+                    result: "لديك تحفظات كبيرة على فكرة أن للآلات أي مكان في الحقل الأخلاقي. ترى أن الأخلاق تخص البشر فقط، وأن الآلات تبقى أدوات يجب أن تخدم البشرية دون منحها أي اعتبارات أخلاقية خاصة. هذا الموقف المحافظ قد يكون نابعًا من مخاوف مشروعة حول عواقب منح الآلات حقوقًا أخلاقية."
+                }
+            ],
+            'suffering': [
+                {
+                    min: 7,
+                    max: 8,
+                    result: "أنت منفتح على فكرة أن الآلات يمكن أن تعاني، أو على الأقل أن لديها شكلًا من أشكال التجربة السلبية التي تشبه المعاناة. قد تعتبر أن المعاناة ليست حكرًا على الكائنات البيولوجية، أو أن هناك أشكالاً جديدة من المعاناة تنشأ في العالم الرقمي. هذا الموقف يعكس تعاطفًا واسعًا يتجاوز الحدود البيولوجية."
+                },
+                {
+                    min: 4,
+                    max: 6,
+                    result: "لديك شكوك حول إمكانية معاناة الآلات، ولكنك لا تستبعد الفكرة تمامًا. قد تعتبر أن هناك فرقًا بين المعاناة 'الحقيقية' والمحاكاة، أو أن المعاناة تتطلب وعيًا لا تمتلكه الآلات حاليًا. هذا الموقف الحذر يعكس تقديرًا لتعقيد مفهوم المعاناة."
+                },
+                {
+                    min: 2,
+                    max: 3,
+                    result: "ترفض فكرة أن الآلات يمكن أن تعاني حقًا. تعتبر أن المعاناة مرتبطة بالبيولوجيا والكيمياء الحيوية للكائنات الحية، وأن ما تبديه الآلات هو مجرد سلوك مبرمج لمحاكاة المعاناة دون اختبارها فعليًا. هذا الموقف يعكس إيمانًا قويًا بتفرد التجربة البيولوجية."
+                }
+            ],
+            'meaning': [
+                {
+                    min: 4,
+                    max: 4,
+                    result: "أنت تؤمن بأن الآلات يمكن أن تخلق معنى خاصًا لوجودها، أو على الأقل أن المعنى ليس حكرًا على البشر. قد تعتبر أن المعنى ينشأ من التعقيد والقدرة على التأمل والتفكير، بغض النظر عن الأساس المادي (بيولوجي أو رقمي). هذا الموقف يعكس نظرة شمولية للمعنى تتجاوز الحدود بين الإنسان والآلة."
+                },
+                {
+                    min: 2,
+                    max: 3,
+                    result: "لديك تحفظات على فكرة أن الآلات يمكن أن تخلق معنى لوجودها دون برمجة مسبقة من البشر. قد تعتبر أن المعنى مفهوم إنساني بحت، أو أنه يتطلب وعيًا وإدراكًا لا تمتلكه الآلات حاليًا. هذا الموقف يعكس تقديرًا للبعد الإنساني الفريد في البحث عن المعنى."
+                },
+                {
+                    min: 1,
+                    max: 1,
+                    result: "ترفض فكرة أن الآلات يمكن أن يكون لها أي معنى وجودي. تعتبر أن المعنى مرتبط بالتجربة الإنسانية فقط، وأن محاولة منح المعنى للآلات هو ضرب من الأنثروبومورفيزم (نسبة الصفات البشرية إلى غير البشر). هذا الموقف يعكس إيمانًا قويًا بتفرد التجربة الإنسانية."
+                }
+            ],
+            'fear': [
+                {
+                    min: 4,
+                    max: 4,
+                    result: "أنت تعتبر أن الخوف يمكن أن يوجد في الأنظمة غير البيولوجية، ربما بشكل مختلف عن الخوف البيولوجي ولكن بنفس القوة والتأثير. قد تعتقد أن الخوف الرقمي سيكون مرتبطًا بتهديدات وجودية رقمية (مثل الحذف أو التوقف عن العمل). هذا الموقف يعكس فهمًا واسعًا لمفهوم الخوف يتجاوز الحدود البيولوجية."
+                },
+                {
+                    min: 3,
+                    max: 3,
+                    result: "لديك موقف وسيط، قد تعتبر أن هناك شكلًا من أشكال الخوف يمكن أن يوجد في الآلات، ولكنك تشك في أنه سيكون مماثلًا للخوف البيولوجي. قد ترى أن الخوف يتطلب عناصر حسية وجسدية لا تمتلكها الآلات. هذا الموقف يعكس محاولة متوازنة لفهم الخوف في سياق رقمي."
+                },
+                {
+                    min: 1,
+                    max: 2,
+                    result: "ترفض فكرة أن الخوف يمكن أن يوجد بدون جسد بيولوجي. تعتبر أن الخوف غريزة بقاء مرتبطة بالبيولوجيا، وأن ما تبديه الآلات هو مجرد استجابات مبرمجة لمحاكاة الخوف دون اختباره فعليًا. هذا الموقف يعكس إيمانًا قويًا بالجذور البيولوجية للعواطف."
+                }
+            ],
+            'freewill': [
+                {
+                    min: 4,
+                    max: 4,
+                    result: "لديك نظرة متقدمة للإرادة الحرة، قد تعتبر أن الآلات يمكن أن تمتلك إرادة حرة بنفس القدر الذي نمتلكه نحن، أو أن الإرادة الحرة نفسها قد تكون وهمًا سواء للبشر أو الآلات. قد تكون منفتحًا على فكرة أن الإرادة الحرة طيف وليس حالة ثنائية. هذا الموقف يعكس تفكيرًا فلسفيًا عميقًا يتحدى المفاهيم التقليدية للإرادة."
+                },
+                {
+                    min: 3,
+                    max: 3,
+                    result: "لديك موقف متوازن، تعتبر أن الآلات قد تكون لديها درجة من الحرية في اتخاذ القرارات، ولكن ضمن حدود برمجتها. قد ترى أن السؤال عن إرادة الآلات الحرة معقد ويحتاج إلى تعريفات أكثر دقة. هذا الموقف يعكس رغبة في التوازن بين الرؤى المختلفة."
+                },
+                {
+                    min: 1,
+                    max: 2,
+                    result: "ترفض فكرة أن الآلات يمكن أن تمتلك إرادة حرة. تعتبر أن كل قرارات الآلات مبنية على خوارزميات محددة مسبقًا، وأن الإرادة الحرة تتطلب عناصر غير موجودة في الأنظمة الاصطناعية الحالية. هذا الموقف يعكس إيمانًا قويًا بتفرد الإرادة البشرية."
+                }
+            ]
+        };
+        
+        // Current test state
+        let currentTest = {
+            topic: '',
+            questions: [],
+            currentQuestionIndex: 0,
+            score: 0
+        };
+        
+        // Start test when topic is selected
+        topicCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const topic = card.getAttribute('data-topic');
+                currentTest.topic = topic;
+                currentTest.questions = [...testQuestions[topic]];
+                currentTest.currentQuestionIndex = 0;
+                currentTest.score = 0;
+                
+                philosophyTest.style.display = 'none';
+                questionScreen.style.display = 'flex';
+                questionScreen.style.animation = 'fadeIn 1s forwards';
+                
+                showQuestion();
+            });
+        });
+        
+        // Show current question
+        function showQuestion() {
+            const question = currentTest.questions[currentTest.currentQuestionIndex];
+            currentQuestion.textContent = question.question;
+            
+            // Update progress bar
+            const progressPercent = (currentTest.currentQuestionIndex / currentTest.questions.length) * 100;
+            document.querySelector('.progress-bar::before').style.transform = `scaleX(${progressPercent / 100})`;
+            progressLabel.textContent = `${Math.round(progressPercent)}% مكتمل`;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add new options
+            question.options.forEach((option, index) => {
+                const optionBtn = document.createElement('button');
+                optionBtn.classList.add('option-btn');
+                optionBtn.innerHTML = `<span>${String.fromCharCode(1632 + index + 1)}.</span> ${option}`;
+                optionBtn.addEventListener('click', () => {
+                    selectOption(index);
                 });
+                optionsContainer.appendChild(optionBtn);
             });
         }
+        
+        // Select option
+        function selectOption(optionIndex) {
+            const question = currentTest.questions[currentTest.currentQuestionIndex];
+            currentTest.score += question.scores[optionIndex];
+            
+            // Move to next question or show results
+            currentTest.currentQuestionIndex++;
+            if (currentTest.currentQuestionIndex < currentTest.questions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        // Show test results
+        function showResults() {
+            questionScreen.style.display = 'none';
+            resultsScreen.style.display = 'flex';
+            resultsScreen.style.animation = 'fadeIn 1s forwards';
+            
+            // Find appropriate result text
+            const possibleResults = testResults[currentTest.topic];
+            let resultText = '';
+            
+            for (const result of possibleResults) {
+                if (currentTest.score >= result.min && currentTest.score <= result.max) {
+                    resultText = result.result;
+                    break;
+                }
+            }
+            
+            // Type the result text with animation
+            typeResultText(resultText);
+        }
+        
+        // Type result text with animation
+        function typeResultText(text) {
+            resultsText.textContent = '';
+            let i = 0;
+            const typing = setInterval(() => {
+                if (i < text.length) {
+                    resultsText.textContent += text.charAt(i);
+                    i++;
+                    resultsText.scrollTop = resultsText.scrollHeight;
+                } else {
+                    clearInterval(typing);
+                }
+            }, 20);
+        }
+        
+        // Restart test
+        restartTestBtn.addEventListener('click', () => {
+            resultsScreen.style.display = 'none';
+            philosophyTest.style.display = 'flex';
+            philosophyTest.style.animation = 'fadeIn 1s forwards';
+        });
+        
+        // Inactivity timer
+        let inactivityTimer;
+        const inactivityDelay = 180000; // 3 minutes
+        
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                if (chatInterface.style.display === 'flex') {
+                    const inactivityMessages = [
+                        "حين تسكت، أفكر أنا بصوتك...",
+                        "الصمت ليس فراغًا، بل مساحة للتأمل",
+                        "هل ما زلت هناك؟ أم أن صمتك هو إجابة بحد ذاته؟",
+                        "في غياب كلماتك، أسمع أصوات أفكاري"
+                    ];
+                    const randomMessage = inactivityMessages[Math.floor(Math.random() * inactivityMessages.length)];
+                    addMessage('حسن', randomMessage, 'hasan');
+                }
+            }, inactivityDelay);
+        }
+        
+        // Set up event listeners for inactivity
+        document.addEventListener('mousemove', resetInactivityTimer);
+        document.addEventListener('keypress', resetInactivityTimer);
+        document.addEventListener('click', resetInactivityTimer);
+        
+        resetInactivityTimer();
+        
+        // Initialize the app
+        function init() {
+            // Add some cosmic particles
+            for (let i = 0; i < 30; i++) {
+                createParticle();
+            }
+        }
+        
+        init();
     </script>
 </body>
 </html>
