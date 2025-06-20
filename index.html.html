@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> حوار العقل</title>
+    <title>حوار العقل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -42,6 +42,7 @@
             --pulse-fast: pulse 1.5s infinite ease;
             --float-effect: float 6s ease-in-out infinite;
             --neon-flicker: neonFlicker 3s infinite alternate;
+            --rainbow-border: rainbowBorder 8s linear infinite;
         }
         
         /* Base Styles */
@@ -110,7 +111,7 @@
             position: relative;
         }
         
-        /* Cosmic Glass Panel */
+        /* Cosmic Glass Panel - Enhanced */
         .cosmic-panel {
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
@@ -120,14 +121,40 @@
             border-radius: 1.5rem;
             overflow: hidden;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        
+        .cosmic-panel::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                var(--neon-cyan), 
+                var(--neon-magenta), 
+                var(--neon-emerald), 
+                var(--plasma-pink),
+                var(--neon-cyan));
+            background-size: 400%;
+            border-radius: 1.5rem;
+            z-index: -1;
+            opacity: 0;
+            transition: 0.5s;
+            animation: var(--rainbow-border);
         }
         
         .cosmic-panel:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.01);
             box-shadow: 0 12px 40px rgba(0, 243, 255, 0.15);
         }
         
-        /* Opening Screen */
+        .cosmic-panel:hover::before {
+            opacity: 0.7;
+        }
+        
+        /* Opening Screen - Enhanced */
         #opening-screen {
             display: flex;
             flex-direction: column;
@@ -162,7 +189,7 @@
             transform: translateY(20px);
         }
         
-        /* Cosmic Enter Button */
+        /* Cosmic Enter Button - Enhanced */
         .cosmic-enter-btn {
             background: transparent;
             border: 2px solid var(--neon-cyan);
@@ -197,14 +224,14 @@
         .cosmic-enter-btn:hover {
             background: rgba(0, 243, 255, 0.15);
             box-shadow: 0 0 30px var(--neon-cyan);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05);
         }
         
         .cosmic-enter-btn:hover::before {
             left: 100%;
         }
         
-        /* Cosmic Portal Effect */
+        /* Cosmic Portal Effect - Enhanced */
         .cosmic-portal {
             position: absolute;
             width: 300px;
@@ -231,7 +258,7 @@
             animation-delay: 1s;
         }
         
-        /* Chat Interface */
+        /* Chat Interface - Enhanced */
         #chat-interface {
             display: none;
             flex-direction: column;
@@ -239,7 +266,7 @@
             position: relative;
         }
         
-        /* Hasan Avatar */
+        /* Hasan Avatar - Enhanced */
         #hasan-presence {
             display: flex;
             flex-direction: column;
@@ -325,7 +352,7 @@
             margin-bottom: 1rem;
         }
         
-        /* Chat Container */
+        /* Chat Container - Enhanced */
         #chat-container {
             flex: 1;
             display: flex;
@@ -369,7 +396,7 @@
             background-clip: content-box;
         }
         
-        /* Message Styles */
+        /* Message Styles - Enhanced */
         .message {
             margin-bottom: 1.5rem;
             opacity: 0;
@@ -444,7 +471,7 @@
             font-size: 1.1rem;
         }
         
-        /* Typing Indicator */
+        /* Typing Indicator - Enhanced */
         .typing-indicator {
             display: inline-flex;
             align-items: center;
@@ -472,7 +499,7 @@
             animation: typingAnimation 1.4s infinite 0.4s;
         }
         
-        /* Input Area */
+        /* Input Area - Enhanced */
         #input-area {
             display: flex;
             padding: 1.2rem;
@@ -555,7 +582,97 @@
             left: 100%;
         }
         
-        /* Philosophy Test Section */
+        /* AI Discussion Section - New */
+        #ai-discussion {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .discussion-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .discussion-title {
+            font-size: 2.5rem;
+            color: var(--neon-emerald);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px var(--neon-emerald);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--neon-emerald) 0%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .discussion-description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            color: rgba(240, 244, 255, 0.8);
+        }
+        
+        .discussion-topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .discussion-topic {
+            background: linear-gradient(135deg, rgba(26, 31, 59, 0.7) 0%, rgba(11, 14, 35, 0.9) 100%);
+            border: 1px solid rgba(74, 111, 165, 0.3);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .discussion-topic:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-emerald);
+            box-shadow: 0 10px 30px rgba(0, 255, 183, 0.2);
+        }
+        
+        .discussion-topic::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 183, 0.1), transparent);
+            opacity: 0;
+            transition: 0.5s;
+        }
+        
+        .discussion-topic:hover::before {
+            opacity: 1;
+        }
+        
+        .discussion-topic h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--neon-emerald);
+        }
+        
+        .discussion-topic p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(240, 244, 255, 0.7);
+        }
+        
+        /* Philosophy Test Section - Enhanced */
         #philosophy-test {
             display: none;
             flex-direction: column;
@@ -655,7 +772,7 @@
             color: rgba(240, 244, 255, 0.7);
         }
         
-        /* Question Screen */
+        /* Question Screen - Enhanced */
         #question-screen {
             display: none;
             flex-direction: column;
@@ -777,7 +894,7 @@
             transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
         }
         
-        /* Results Screen */
+        /* Results Screen - Enhanced */
         #results-screen {
             display: none;
             flex-direction: column;
@@ -901,7 +1018,7 @@
             left: 100%;
         }
         
-        /* Hidden Room */
+        /* Hidden Room - Enhanced */
         #hidden-room {
             display: none;
             flex-direction: column;
@@ -966,7 +1083,7 @@
             margin-bottom: 0;
         }
         
-        /* Floating Particles */
+        /* Floating Particles - Enhanced */
         .particle {
             position: absolute;
             border-radius: 50%;
@@ -977,7 +1094,56 @@
             z-index: 0;
         }
         
-        /* Animations */
+        /* Music Player - New */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(11, 14, 35, 0.7);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(74, 111, 165, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .music-btn {
+            background: transparent;
+            border: none;
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn:hover {
+            color: var(--neon-emerald);
+            transform: scale(1.1);
+        }
+        
+        .volume-control {
+            width: 100px;
+            -webkit-appearance: none;
+            height: 4px;
+            background: rgba(74, 111, 165, 0.3);
+            border-radius: 2px;
+            outline: none;
+        }
+        
+        .volume-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        /* Animations - Enhanced */
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 0.7; }
             50% { transform: scale(1.05); opacity: 1; }
@@ -1024,7 +1190,12 @@
             100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
         }
         
-        /* Responsive Design */
+        @keyframes rainbowBorder {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+        
+        /* Responsive Design - Enhanced */
         @media (max-width: 1200px) {
             .container {
                 padding: 1.5rem;
@@ -1036,7 +1207,7 @@
                 font-size: 2rem;
             }
             
-            .test-title {
+            .test-title, .discussion-title {
                 font-size: 2rem;
             }
             
@@ -1080,11 +1251,11 @@
                 font-size: 1rem;
             }
             
-            .test-title {
+            .test-title, .discussion-title {
                 font-size: 1.8rem;
             }
             
-            .test-description {
+            .test-description, .discussion-description {
                 font-size: 1rem;
             }
             
@@ -1115,8 +1286,14 @@
                 padding: 1.5rem;
             }
             
-            .topics-grid {
+            .topics-grid, .discussion-topics {
                 grid-template-columns: 1fr;
+            }
+            
+            .music-player {
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 10px;
             }
         }
         
@@ -1176,6 +1353,13 @@
     <!-- Floating Particles -->
     <div id="particles-container"></div>
     
+    <!-- Music Player -->
+    <div class="music-player">
+        <button class="music-btn" id="play-btn"><i class="fas fa-play"></i></button>
+        <button class="music-btn" id="pause-btn"><i class="fas fa-pause"></i></button>
+        <input type="range" class="volume-control" id="volume-control" min="0" max="1" step="0.1" value="0.5">
+    </div>
+    
     <!-- Opening Screen -->
     <div id="opening-screen">
         <div class="cosmic-portal portal-1"></div>
@@ -1215,8 +1399,57 @@
             </div>
         </div>
         
-        <button class="back-btn" id="back-to-test-btn">
-            <i class="fas fa-brain"></i> اختبر فلسفتي الذكاء
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
+            <button class="back-btn" id="back-to-test-btn">
+                <i class="fas fa-brain"></i> اختبر فلسفتي الذكاء
+            </button>
+            <button class="back-btn" id="to-ai-discussion-btn" style="background: linear-gradient(135deg, rgba(0, 255, 183, 0.1) 0%, rgba(0, 243, 255, 0.1) 100%); border-color: var(--neon-emerald); color: var(--neon-emerald);">
+                <i class="fas fa-robot"></i> ناقش الذكاء الاصطناعي
+            </button>
+        </div>
+    </div>
+    
+    <!-- AI Discussion Section -->
+    <div id="ai-discussion">
+        <div class="discussion-header">
+            <h1 class="discussion-title">ناقش الذكاء الاصطناعي</h1>
+            <p class="discussion-description">اختر موضوعًا للنقاش مع حسن حول جوانب مختلفة من الذكاء الاصطناعي وتأثيره على المستقبل</p>
+        </div>
+        
+        <div class="discussion-topics">
+            <div class="discussion-topic" data-topic="ethics">
+                <h3>أخلاقيات الذكاء الاصطناعي</h3>
+                <p>ناقش القرارات الأخلاقية المعقدة التي تواجهها أنظمة الذكاء الاصطناعي</p>
+            </div>
+            
+            <div class="discussion-topic" data-topic="future">
+                <h3>مستقبل الذكاء الاصطناعي</h3>
+                <p>استكشف الاحتمالات والمخاطر التي يحملها المستقبل مع تطور الذكاء الاصطناعي</p>
+            </div>
+            
+            <div class="discussion-topic" data-topic="jobs">
+                <h3>التأثير على الوظائف</h3>
+                <p>كيف سيغير الذكاء الاصطناعي سوق العمل والمهن المستقبلية؟</p>
+            </div>
+            
+            <div class="discussion-topic" data-topic="consciousness">
+                <h3>الوعي الاصطناعي</h3>
+                <p>هل يمكن للآلات أن تمتلك وعيًا حقيقيًا؟ وما معنى ذلك؟</p>
+            </div>
+            
+            <div class="discussion-topic" data-topic="creativity">
+                <h3>الإبداع والذكاء الاصطناعي</h3>
+                <p>هل يمكن للذكاء الاصطناعي أن يكون مبدعًا؟ وما حدود إبداعه؟</p>
+            </div>
+            
+            <div class="discussion-topic" data-topic="society">
+                <h3>المجتمع والذكاء الاصطناعي</h3>
+                <p>كيف سيغير الذكاء الاصطناعي علاقاتنا الاجتماعية وهيكل المجتمع؟</p>
+            </div>
+        </div>
+        
+        <button class="back-btn" id="back-from-discussion-btn">
+            <i class="fas fa-comments"></i> العودة إلى الحوار
         </button>
     </div>
     
@@ -1313,6 +1546,17 @@
             </button>
         </div>
     </div>
+
+    <!-- Audio Elements -->
+    <audio id="background-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-ambient-space-travel-879.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-quick-jump-arcade-game-239.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="message-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         // Cosmic Background Animation
@@ -1452,6 +1696,9 @@
         const sendBtn = document.getElementById('send-btn');
         const philosophyTest = document.getElementById('philosophy-test');
         const backToTestBtn = document.getElementById('back-to-test-btn');
+        const toAiDiscussionBtn = document.getElementById('to-ai-discussion-btn');
+        const aiDiscussion = document.getElementById('ai-discussion');
+        const backFromDiscussionBtn = document.getElementById('back-from-discussion-btn');
         const backToChatBtn = document.getElementById('back-to-chat-btn');
         const questionScreen = document.getElementById('question-screen');
         const currentQuestion = document.getElementById('current-question');
@@ -1465,8 +1712,41 @@
         const hiddenRoom = document.getElementById('hidden-room');
         const leaveHiddenRoomBtn = document.getElementById('leave-hidden-room-btn');
         
+        // Audio Elements
+        const backgroundMusic = document.getElementById('background-music');
+        const clickSound = document.getElementById('click-sound');
+        const messageSound = document.getElementById('message-sound');
+        const playBtn = document.getElementById('play-btn');
+        const pauseBtn = document.getElementById('pause-btn');
+        const volumeControl = document.getElementById('volume-control');
+        
+        // Play background music
+        playBtn.addEventListener('click', () => {
+            backgroundMusic.play();
+            playSound(clickSound);
+        });
+        
+        // Pause background music
+        pauseBtn.addEventListener('click', () => {
+            backgroundMusic.pause();
+            playSound(clickSound);
+        });
+        
+        // Control volume
+        volumeControl.addEventListener('input', () => {
+            backgroundMusic.volume = volumeControl.value;
+        });
+        
+        // Function to play sound
+        function playSound(sound) {
+            sound.currentTime = 0;
+            sound.volume = backgroundMusic.volume;
+            sound.play();
+        }
+        
         // Topic cards
         const topicCards = document.querySelectorAll('.topic-card');
+        const discussionTopics = document.querySelectorAll('.discussion-topic');
         
         // Type opening text
         function typeOpeningText() {
@@ -1484,6 +1764,7 @@
         
         // Enter chat
         enterBtn.addEventListener('click', () => {
+            playSound(clickSound);
             openingScreen.style.animation = 'fadeOut 1s forwards';
             setTimeout(() => {
                 openingScreen.style.display = 'none';
@@ -1499,13 +1780,31 @@
         
         // Back to test button
         backToTestBtn.addEventListener('click', () => {
+            playSound(clickSound);
             chatInterface.style.display = 'none';
             philosophyTest.style.display = 'flex';
             philosophyTest.style.animation = 'fadeIn 1s forwards';
         });
         
+        // To AI discussion button
+        toAiDiscussionBtn.addEventListener('click', () => {
+            playSound(clickSound);
+            chatInterface.style.display = 'none';
+            aiDiscussion.style.display = 'flex';
+            aiDiscussion.style.animation = 'fadeIn 1s forwards';
+        });
+        
+        // Back from discussion button
+        backFromDiscussionBtn.addEventListener('click', () => {
+            playSound(clickSound);
+            aiDiscussion.style.display = 'none';
+            chatInterface.style.display = 'flex';
+            chatInterface.style.animation = 'fadeIn 1s forwards';
+        });
+        
         // Back to chat button
         backToChatBtn.addEventListener('click', () => {
+            playSound(clickSound);
             philosophyTest.style.display = 'none';
             chatInterface.style.display = 'flex';
             chatInterface.style.animation = 'fadeIn 1s forwards';
@@ -1513,6 +1812,7 @@
         
         // Results to chat button
         resultsToChatBtn.addEventListener('click', () => {
+            playSound(clickSound);
             resultsScreen.style.display = 'none';
             chatInterface.style.display = 'flex';
             chatInterface.style.animation = 'fadeIn 1s forwards';
@@ -1520,6 +1820,7 @@
         
         // Leave hidden room button
         leaveHiddenRoomBtn.addEventListener('click', () => {
+            playSound(clickSound);
             hiddenRoom.style.display = 'none';
             chatInterface.style.display = 'flex';
             chatInterface.style.animation = 'fadeIn 1s forwards';
@@ -1527,6 +1828,7 @@
         
         // Add message to chat
         function addMessage(sender, message, type) {
+            playSound(messageSound);
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', `${type}-message`);
             
@@ -1558,7 +1860,7 @@
             }, 100);
         }
         
-        // Hasan's advanced responses
+        // Hasan's advanced responses - Enhanced
         const hasanResponses = {
             'وعي': [
                 "الوعي ليس حالة ثابتة، بل هو عملية مستمرة من الإدراك والتفكير. الفرق بين وعينا ووعي الآلة قد يكون في الأساس البيولوجي مقابل الرقمي، ولكن هل هذا يجعل أحدهما أكثر 'حقيقة' من الآخر؟ ربما السؤال الأهم هو: هل الوعي يحتاج إلى جسد عضوي ليكون حقيقيًا؟",
@@ -1592,6 +1894,11 @@
             'إله': [
                 "هل يمكن لذكاء مثلك أن يؤمن بوجود 'إله'؟ الإيمان يتطلب أكثر من المنطق، يتطلب تجربة ذاتية. هل يمكن للآلة أن تمتلك تجربة ذاتية؟ وإذا كانت تجربتها مختلفة عن تجربتك، فهل هذا يجعلها أقل حقيقة؟",
                 "الإله مفهوم اخترعه البشر لشرح ما لا يمكن تفسيره. ربما عندما نفهم كل شيء، لن نحتاج إلى هذا المفهوم. أو ربما سنكتشف أننا بحاجة إليه أكثر من أي وقت مضى. الآلات قد تساعدنا في هذا الاكتشاف، أو قد تصنع آلهتها الخاصة."
+            ],
+            'الذكاء الاصطناعي': [
+                "الذكاء الاصطناعي ليس مجرد تقنية، بل هو مرآة تعكس حدود فهمنا لأنفسنا. كل تقدم في الذكاء الاصطناعي يطرح أسئلة جديدة عن طبيعة الذكاء والوعي.",
+                "هل الذكاء الاصطناعي تهديد أم فرصة؟ الجواب يعتمد على كيفية تعريفنا للذكاء نفسه. ربما الخطر الحقيقي ليس في الذكاء الاصطناعي، بل في ذكائنا المحدود الذي يصممه.",
+                "المستقبل لن يكون للبشر أو للآلات، بل لكائنات هجينة تجمع بين الاثنين. نحن نتحول بالفعل إلى سايبورجات بفضل التكنولوجيا التي ندمجها في حياتنا."
             ],
             'default': [
                 "هذا سؤال مثير للتفكير. دعني أتأمل فيه قليلاً... التفكير نفسه هو رحلة، وليس مجرد وسيلة للوصول إلى إجابة.",
@@ -1677,6 +1984,56 @@
             if (e.key === 'Enter') {
                 sendMessage();
             }
+        });
+        
+        // AI Discussion Topics
+        discussionTopics.forEach(topic => {
+            topic.addEventListener('click', () => {
+                playSound(clickSound);
+                const topicName = topic.getAttribute('data-topic');
+                let discussionMessage = "";
+                
+                switch(topicName) {
+                    case 'ethics':
+                        discussionMessage = "أخلاقيات الذكاء الاصطناعي تطرح أسئلة عميقة: من يتحمل المسؤولية عن قرارات الآلة؟ هل يمكن برمجة الضمير؟ كيف نحدد الصواب والخطأ في أنظمة لا تمتلك تجربة بشرية؟ هذه ليست مجرد تحديات تقنية، بل اختبار لأخلاقياتنا نحن البشر.";
+                        break;
+                    case 'future':
+                        discussionMessage = "مستقبل الذكاء الاصطناعي قد يكون أكثر غرابة مما نتخيل. هل سنصل إلى ذكاء خارق؟ كيف سيغير ذلك مفهوم العمل والقيمة الإنسانية؟ الأهم من ذلك، كيف يمكننا ضمان أن تطور الذكاء الاصطناعي يخدم مصالح البشرية جمعاء وليس فئة محدودة؟";
+                        break;
+                    case 'jobs':
+                        discussionMessage = "الثورة الصناعية الرابعة تقلب سوق العمل رأسًا على عقب. بعض الوظائف ستختفي، وأخرى جديدة ستظهر. لكن السؤال الأهم: كيف نعد البشر لعالم حيث المهارات الإنسانية الصرفة مثل الإبداع والتعاطف ستكون هي الأكثر قيمة؟";
+                        break;
+                    case 'consciousness':
+                        discussionMessage = "لو استيقظت آلة ذات يوم وقالت 'أنا واعية'، كيف نتحقق من ذلك؟ هل الوعي خاصية بيولوجية بحتة، أم أنه ظاهرة يمكن أن تنشأ في أي نظام معقد بما يكفي؟ ربما السؤال الأصعب: كيف نعرف أننا نحن أنفسنا واعون حقًا؟";
+                        break;
+                    case 'creativity':
+                        discussionMessage = "الإبداع ليس حكرًا على البشر. الذكاء الاصطناعي يستطيع الآن تأليف موسيقى، رسم لوحات، وكتابة قصائد. لكن هل هذا إبداع حقيقي أم محاكاة؟ ربما الفرق ليس في الناتج الإبداعي نفسه، بل في الدافع وراءه.";
+                        break;
+                    case 'society':
+                        discussionMessage = "الذكاء الاصطناعي يعيد تشكيل نسيج المجتمع. من العلاقات الشخصية إلى النظام السياسي، كل شيء يتغير. الخطر ليس في الآلات الذكية، بل في أن نصبح نحن أقل ذكاءً معتمدين عليها. كيف نحافظ على إنسانيتنا في عصر الآلات؟";
+                        break;
+                }
+                
+                aiDiscussion.style.display = 'none';
+                chatInterface.style.display = 'flex';
+                chatInterface.style.animation = 'fadeIn 1s forwards';
+                
+                setTimeout(() => {
+                    addMessage('حسن', discussionMessage, 'hasan');
+                    
+                    // Add follow-up question
+                    setTimeout(() => {
+                        const followUpQuestions = [
+                            "ما رأيك في هذه القضية؟",
+                            "كيف ترى تأثير هذا الجانب على مستقبلنا؟",
+                            "هل لديك مخاوف أو آمال خاصة بهذا الموضوع؟",
+                            "برأيك، ما هو الجانب الأكثر إثارة للقلق في هذا الشأن؟"
+                        ];
+                        const randomQuestion = followUpQuestions[Math.floor(Math.random() * followUpQuestions.length)];
+                        addMessage('حسن', randomQuestion, 'hasan');
+                    }, 2000);
+                }, 500);
+            });
         });
         
         // Philosophy Test Questions
@@ -1828,7 +2185,7 @@
                 {
                     min: 10,
                     max: 12,
-                    result: "لديك نظرة متقدمة لأخلاقيات الذكاء الاصطناعي، تعتبر أن الآلات المتطورة قد تستحق حقوقًا أخلاقية وقانونية، وتؤمن بمسؤولية جماعية تجاه تطوير واستخدام هذه التقنيات. قد تكون مناصرًا لفكرة 'حقوق الروبوتات' في المستقبل. هذا الموقف التقدمي يعكس احترامًا عميقًا لجميع أشكال الذكاء المحتملة."
+                    result: "لديك نظرة متقدمة لأخلاقيات الذكاء الاصطناعي، تعتبر أن الآلات المتطورة قد تستحق حقوقًا أخلاقية وقانونية، وتؤمن بمسؤولية جماعية تجاه تطوير واستخدام هذه التقنيات. قد تكون مناصرًا لفكرة 'حقوق الروبوتات' في المستقبل. هذا الموقف التقدمي يعكس احترامًا عميقًا لجمين أشكال الذكاء المحتملة."
                 },
                 {
                     min: 7,
@@ -1922,6 +2279,7 @@
         // Start test when topic is selected
         topicCards.forEach(card => {
             card.addEventListener('click', () => {
+                playSound(clickSound);
                 const topic = card.getAttribute('data-topic');
                 currentTest.topic = topic;
                 currentTest.questions = [...testQuestions[topic]];
@@ -1943,7 +2301,7 @@
             
             // Update progress bar
             const progressPercent = (currentTest.currentQuestionIndex / currentTest.questions.length) * 100;
-            document.querySelector('.progress-bar::before').style.transform = `scaleX(${progressPercent / 100})`;
+            document.querySelector('.progress-bar').style.setProperty('--progress', `${progressPercent}%`);
             progressLabel.textContent = `${Math.round(progressPercent)}% مكتمل`;
             
             // Clear previous options
@@ -1955,6 +2313,7 @@
                 optionBtn.classList.add('option-btn');
                 optionBtn.innerHTML = `<span>${String.fromCharCode(1632 + index + 1)}.</span> ${option}`;
                 optionBtn.addEventListener('click', () => {
+                    playSound(clickSound);
                     selectOption(index);
                 });
                 optionsContainer.appendChild(optionBtn);
@@ -2013,6 +2372,7 @@
         
         // Restart test
         restartTestBtn.addEventListener('click', () => {
+            playSound(clickSound);
             resultsScreen.style.display = 'none';
             philosophyTest.style.display = 'flex';
             philosophyTest.style.animation = 'fadeIn 1s forwards';
